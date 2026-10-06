@@ -1,0 +1,41 @@
+---
+import Shell from '../layouts/Shell.astro';
+import Hero from '../components/Hero.astro';
+import ExperienceLog from '../components/ExperienceLog.astro';
+import Education from '../components/Education.astro';
+import ProjectsSection from '../components/ProjectsSection.astro';
+import Skills from '../components/Skills.astro';
+import Contact from '../components/Contact.astro';
+import { getProjects, profile } from '../lib/content';
+
+const projects = await getProjects();
+const treeItems = [
+  { href: '#presentation', label: 'README.md', target: 'presentation' },
+  { href: '#experiences', label: 'experiences/', target: 'experiences' },
+  { href: '#formation', label: 'formation/', target: 'formation' },
+  { href: '#projets', label: 'projets/', target: 'projets' },
+  ...projects.map((p) => ({ href: `/projets/${p.id}/`, label: p.id, sub: true })),
+  { href: '#competences', label: 'competences.yml', target: 'competences' },
+  { href: '#contact', label: 'contact', target: 'contact' },
+];
+const cmdNav = [
+  { href: '#experiences', label: 'experiences/' },
+  { href: '#formation', label: 'formation/' },
+  { href: '#projets', label: 'projets/' },
+  { href: '#competences', label: 'competences.yml' },
+  { href: '#contact', label: 'contact' },
+];
+---
+<Shell
+  treeItems={treeItems}
+  cmdNav={cmdNav}
+  foot={{ href: profile.cv, label: 'cv-alexandre-magnier.pdf' }}
+  here="README.md"
+>
+  <Hero />
+  <ExperienceLog />
+  <Education />
+  <ProjectsSection />
+  <Skills />
+  <Contact />
+</Shell>

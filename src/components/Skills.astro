@@ -1,0 +1,35 @@
+---
+import { skills, yamlKey } from '../lib/content';
+---
+<section id="competences" class="g sec" aria-labelledby="t-skills">
+  <header class="sec__head">
+    <p class="sec__cmd prompt">cat competences.yml</p>
+    <h2 class="sec__title" id="t-skills">competences<span class="slash">.yml</span></h2>
+  </header>
+
+  <div class="file">
+    <div class="file__tab"><b>competences.yml</b><span class="mute">yaml · lecture seule</span></div>
+    <ol class="code">
+      {skills.groups.map((g) => (
+        <>
+          <li><span><span class="k">{yamlKey(g.name)}:</span> {g.items.join(', ')}</span></li>
+        </>
+      ))}
+    </ol>
+  </div>
+
+  <div class="aside">
+    <div>
+      <h3><span class="comment" style="color:var(--ink)">langues</span></h3>
+      <ul>
+        {skills.languages.map((l) => <li><span>{l.name}</span><span class="mute">{l.level}</span></li>)}
+      </ul>
+    </div>
+    <div>
+      <h3><span class="comment" style="color:var(--ink)">savoir-être</span></h3>
+      <ul>
+        {skills.softSkills.map((s) => <li>{s}</li>)}
+      </ul>
+    </div>
+  </div>
+</section>

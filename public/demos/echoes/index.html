@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <script src="script.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <title>Accueil</title>
+</head>
+
+<body>
+    <header>
+        <div class="logo">
+            <img src="image/Logo.png" alt="Logo du site">
+        </div>
+        <nav>
+            <ul class="nav-links">
+                <li><a href="index.html">Accueil</a></li>
+                <li><a href="spotify.html">Playlist</a></li>
+                <li><a href="progr.html">Programmation</a></li>
+                <li><a href="contactpage.html">Contact</a></li>
+                <li><a href="auth.html">Connexion</a></li>
+                <li id="userMenu" class="hidden">
+                    <a href="#" id="logoutBtn">Déconnexion</a>
+                    <span id="userEmail"></span>
+                </li>
+            </ul>
+        </nav>
+    </header>
+    <div class="banner" id="accueil">
+        <h1>Programmez votre arrivée </h1>
+        <p>Découvrez notre programmation exceptionnelle et réservez vos places en quelques clics</p>
+        <a href="#reservation" class="btn">Réserver maintenant</a>
+    </div>
+
+    <main>
+        <section id="reservation">
+            <h2 class="section-title">Réservation</h2>
+            <div class="reservation-container">
+                <div class="reservation-calendar">
+                    <div class="calendar-header">
+                        <button id="prev-month">&lt;</button>
+                        <h3 id="current-month">Février 2025</h3>
+                        <button id="next-month">&gt;</button>
+                    </div>
+                    <div class="calendar-grid">
+                        <div class="calendar-days">L</div>
+                        <div class="calendar-days">M</div>
+                        <div class="calendar-days">M</div>
+                        <div class="calendar-days">J</div>
+                        <div class="calendar-days">V</div>
+                        <div class="calendar-days">S</div>
+                        <div class="calendar-days">D</div>
+
+                        <!-- Jours du mois - générés dynamiquement en JS -->
+                        <div class="calendar-date"></div>
+                        <div class="calendar-date"></div>
+                        <div class="calendar-date"></div>
+                        <div class="calendar-date"></div>
+                        <div class="calendar-date"></div>
+                        <div class="calendar-date available">1</div>
+                        <div class="calendar-date available">2</div>
+                        <div class="calendar-date available">3</div>
+                        <div class="calendar-date unavailable">4</div>
+                        <div class="calendar-date available">5</div>
+                        <div class="calendar-date available">6</div>
+                        <div class="calendar-date available">7</div>
+                        <div class="calendar-date available">8</div>
+                        <div class="calendar-date available">9</div>
+                        <div class="calendar-date available">10</div>
+                        <div class="calendar-date available">11</div>
+                        <div class="calendar-date available">12</div>
+                        <div class="calendar-date unavailable">13</div>
+                        <div class="calendar-date available">14</div>
+                        <div class="calendar-date available">15</div>
+                        <div class="calendar-date available selected">16</div>
+                        <div class="calendar-date available">17</div>
+                        <div class="calendar-date available">18</div>
+                        <div class="calendar-date available">19</div>
+                        <div class="calendar-date available">20</div>
+                        <div class="calendar-date available">21</div>
+                        <div class="calendar-date unavailable">22</div>
+                        <div class="calendar-date available">23</div>
+                        <div class="calendar-date available">24</div>
+                        <div class="calendar-date available">25</div>
+                        <div class="calendar-date available">26</div>
+                        <div class="calendar-date available">27</div>
+                        <div class="calendar-date available">28</div>
+                    </div>
+                </div>
+                <div class="reservation-form">
+                    <h3>Réservez votre place</h3>
+                    <form id="booking-form">
+                        <div class="form-group">
+                            <label for="event-select">Choisissez l'événement</label>
+                            <select id="event-select" required>
+                                <option value="">Sélectionnez un événement</option>
+                                <option value="event1">28 juin 2025</option>
+                                <option value="event2"> 29 juin 2025</option>
+                                <option value="event3"> 2 jours </option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="tickets">Nombre de places</label>
+                            <select id="tickets" required>
+                                <option value="1">1 place</option>
+                                <option value="2">2 places</option>
+                                <option value="3">3 places</option>
+                                <option value="4">4 places</option>
+                                <option value="5">5 places</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="name">Nom complet</label>
+                            <input type="text" id="name" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="email">Email</label>
+                            <input type="email" id="email" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="phone">Téléphone</label>
+                            <input type="tel" id="phone" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Acheter votre monnaie virtuelle </label>
+                            <div class="payment-options">
+                                <div class="payment-option selected">
+                                    <i class="payment-icon credit-card"></i>
+                                    Carte de crédit
+                                </div>
+                                <div class="payment-option">
+                                    <i class="payment-icon paypal"></i>
+                                    PayPal
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="card-number">Numéro de carte</label>
+                            <input type="text" id="card-number" placeholder="XXXX XXXX XXXX XXXX">
+                        </div>
+                        <div class="form-group">
+                            <label for="card-expiry">Date d'expiration</label>
+                            <input type="text" id="card-expiry" placeholder="MM/AA">
+                        </div>
+                        <div class="form-group">
+                            <label for="card-cvv">CVV</label>
+                            <input type="text" id="card-cvv" placeholder="XXX">
+                        </div>
+                        <button type="submit" class="btn">Payer et réserver</button>
+                    </form>
+                </div>
+            </div>
+        </section>
+
+        <section id="goodies">
+            <div class="container">
+                <h2 class="section-title">Achetez nos goodies</h2>
+                <div class="goodies-grid">
+                    <article class="goodies-card">
+                        <div class="goodies-wrapper">
+                            <img src="image/porte clé.png" alt="Porte-clé Echoes" class="goodies-image">
+                        </div>
+                        <div class="goodies-content">
+                            <h3 class="goodies-title">Porte-clé Echoes</h3>
+                            <p class="goodies-description">Porte-clé officiel aux couleurs du festival.</p>
+                            <a href="#" class="btn btn-goodies">Acheter</a>
+                        </div>
+                    </article>
+
+                    <article class="goodies-card">
+                        <div class="goodies-wrapper">
+                            <img src="image/TSHIRTS.png" alt="T-shirt Echoes" class="goodies-image">
+                        </div>
+                        <div class="goodies-content">
+                            <h3 class="goodies-title">T-shirt Collection 2025</h3>
+                            <p class="goodies-description">T-shirt exclusif de notre collection 2025.</p>
+                            <a href="#" class="btn btn-goodies">Acheter</a>
+                        </div>
+                    </article>
+
+                    <article class="goodies-card">
+                        <div class="goodies-wrapper">
+                            <img src="image/pins festival.png" alt="Poster Echoes" class="goodies-image">
+                        </div>
+                        <div class="goodies-content">
+                            <h3 class="goodies-title">Pins édition limitée</h3>
+                            <p class="goodies-description">Différents dérivés de pins de l'édition 2025.</p>
+                            <a href="#" class="btn btn-goodies">Acheter</a>
+                        </div>
+                    </article>
+                </div>
+            </div>
+        </section>
+
+        <section class="location-section">
+            <h1>Nous trouver</h1>
+            <div class="location-container">
+                <div class="map-container">
+                    <iframe 
+                        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d21511.11380276673!2d6.1767920136576455!3d47.628284528823!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x4792f30cdefb5b67%3A0x409ce34b30f07e0!2s70000%20Frotey-l%C3%A8s-Vesoul!5e0!3m2!1sen!2sfr!4v1742392746533!5m2!1sen!2sfr"
+                        allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade">
+                    </iframe>
+                </div>
+                <div class="plan-container">
+                    <img src="image/map-festival.png" alt="Plan d'accès du site" class="access-plan">
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <section id="social">
+        <h2 class="section-title">Rejoignez-nous sur les réseaux</h2>
+        <div class="social-container">
+            <a href="#" class="social-icon"><svg xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width="100"
+                    height="100" viewBox="0 0 50 50">
+                    <path
+                        d="M41,4H9C6.24,4,4,6.24,4,9v32c0,2.76,2.24,5,5,5h32c2.76,0,5-2.24,5-5V9C46,6.24,43.76,4,41,4z M37,19h-2c-2.14,0-3,0.5-3,2 v3h5l-1,5h-4v15h-5V29h-4v-5h4v-3c0-4,2-7,6-7c2.9,0,4,1,4,1V19z">
+                    </path>
+                </svg></a>
+            <a href="#" class="social-icon"><svg xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width="100"
+                    height="100" viewBox="0 0 50 50">
+                    <path
+                        d="M 11 4 C 7.134 4 4 7.134 4 11 L 4 39 C 4 42.866 7.134 46 11 46 L 39 46 C 42.866 46 46 42.866 46 39 L 46 11 C 46 7.134 42.866 4 39 4 L 11 4 z M 13.085938 13 L 21.023438 13 L 26.660156 21.009766 L 33.5 13 L 36 13 L 27.789062 22.613281 L 37.914062 37 L 29.978516 37 L 23.4375 27.707031 L 15.5 37 L 13 37 L 22.308594 26.103516 L 13.085938 13 z M 16.914062 15 L 31.021484 35 L 34.085938 35 L 19.978516 15 L 16.914062 15 z">
+                    </path>
+                </svg></a>
+            <a href="#" class="social-icon"><svg xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width="100"
+                    height="100" viewBox="0 0 50 50">
+                    <path
+                        d="M41,4H9C6.24,4,4,6.24,4,9v32c0,2.76,2.24,5,5,5h32c2.76,0,5-2.24,5-5V9C46,6.24,43.76,4,41,4z M17,20v19h-6V20H17z M11,14.47c0-1.4,1.2-2.47,3-2.47s2.93,1.07,3,2.47c0,1.4-1.12,2.53-3,2.53C12.2,17,11,15.87,11,14.47z M39,39h-6c0,0,0-9.26,0-10 c0-2-1-4-3.5-4.04h-0.08C27,24.96,26,27.02,26,29c0,0.91,0,10,0,10h-6V20h6v2.56c0,0,1.93-2.56,5.81-2.56 c3.97,0,7.19,2.73,7.19,8.26V39z">
+                    </path>
+                </svg></a>
+            <a href="#" class="social-icon"><svg xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width="100"
+                    height="100" viewBox="0 0 50 50">
+                    <path
+                        d="M 16 3 C 8.83 3 3 8.83 3 16 L 3 34 C 3 41.17 8.83 47 16 47 L 34 47 C 41.17 47 47 41.17 47 34 L 47 16 C 47 8.83 41.17 3 34 3 L 16 3 z M 37 11 C 38.1 11 39 11.9 39 13 C 39 14.1 38.1 15 37 15 C 35.9 15 35 14.1 35 13 C 35 11.9 35.9 11 37 11 z M 25 14 C 31.07 14 36 18.93 36 25 C 36 31.07 31.07 36 25 36 C 18.93 36 14 31.07 14 25 C 14 18.93 18.93 14 25 14 z M 25 16 C 20.04 16 16 20.04 16 25 C 16 29.96 20.04 34 25 34 C 29.96 34 34 29.96 34 25 C 34 20.04 29.96 16 25 16 z">
+                    </path>
+                </svg></a>
+        </div>
+    </section>
+    </main>
+
+    <footer>
+        <div class="footer-content">
+            <div class="footer-section">
+                <h3>À propos</h3>
+                <p>Nous organisons des événements culturels de qualité depuis plus de 10 ans.</p>
+            </div>
+            <div class="footer-section">
+                <h3>Liens rapides</h3>
+                <ul class="footer-links">
+                    <li><a href="index.html">Accueil</a></li>
+                    <li><a href="spotify.html">Playlist</a></li>
+                    <li><a href="progr.html">Programmation</a></li>
+                    <li><a href="auth.html">Connexion</a></li>
+                    <li><a href="contactpage.html">Contact</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h3>Contact</h3>
+                <p>Email: contact@monsite.fr</p>
+                <p>Téléphone: +33 1 23 45 67 89</p>
+                <p>Adresse: 123 Rue de Paris, 75001 Paris</p>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2025 MonSite - Tous droits réservés</p>
+        </div>
+    </footer>
+</body>
+
+</html>

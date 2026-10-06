@@ -1,0 +1,22 @@
+---
+import { education, stripPostcode } from '../lib/content';
+---
+<section id="formation" class="g sec" aria-labelledby="t-formation">
+  <header class="sec__head">
+    <p class="sec__cmd prompt">ls -lt formation/</p>
+    <h2 class="sec__title" id="t-formation">formation<span class="slash">/</span></h2>
+  </header>
+
+  <ol class="log" reversed>
+    {education.map((ed) => (
+      <li class="log__row">
+        <p class="log__date"><b>{ed.start}</b>→ {ed.end}</p>
+        <div>
+          <h3 class="log__role">{ed.degree}</h3>
+          {ed.topics?.length > 0 && <p class="log__topics"><span class="log__label">au programme :</span> {ed.topics.join(', ')}</p>}
+        </div>
+        <p class="log__where"><b>{ed.school}</b><span class="mute">bachelor · {stripPostcode(ed.place)}</span></p>
+      </li>
+    ))}
+  </ol>
+</section>

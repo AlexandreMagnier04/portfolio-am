@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Accueil - Logements</title>
+  <link rel="stylesheet" href="style.css" />
+  <script src="script.js"></script>
+
+</head>
+
+<body id="content">
+  <header>
+    <img src="img/logo.png" alt="Airbnb Logo" id="logo" />
+    <div class="header-nav">
+      <a href="#">Publier mon logement</a>
+      <a href="#">Publier mon activité</a>
+    </div>
+
+    <div id="header-button">
+      <button id="theme-toggle" class="theme-toggle">Mode sombre</button>
+      <img src="img/explore.png" alt="Language Icon" class="icon" />
+      <img src="img/user.png" alt="User Icon" class="icon" />
+    </div>
+
+  </header>
+
+  <section class="nav-section">
+    <div class="nav-tabs">
+      <a href="index.html" class="nav-tab active">Logements</a>
+      <a href="index-activités.html" class="nav-tab">Activités</a>
+    </div>
+  </section>
+
+  <section class="search-section">
+    <div class="input-container">
+
+      <label for="text" class="input-label">Destination</label>
+      <input type="text" placeholder="Rechercher une destination" class="input-field" alt="Saisir la destination" />
+    </div>
+    <hr class="search-separator">
+
+    <div class="input-container">
+
+      <label for="date" class="input-label">Arrivée</label>
+      <input type="date" placeholder="Quand" class="input-field" alt="Saisir la date d'arrivée" />
+    </div>
+    <hr class="search-separator">
+
+    <div class="input-container">
+
+      <label for="date" class="input-label">Départ</label>
+      <input type="date" placeholder="Rechercher une destination" class="input-field" />
+    </div>
+    <hr class="search-separator">
+
+    <div class="input-container">
+
+      <label for="number" class="input-label">Voyageurs</label>
+      <input type="number" placeholder="Ajouter des voyageurs" class="input-field" />
+    </div>
+
+    <a href=""><img src="img/loupe.png" alt="Loupe de recherche" /></a>
+
+
+  </section>
+
+  <section class="categories-section">
+    <div class="category-item">
+      <img src="img/iconiques.png" alt="Iconiques" />
+      <p>Iconiques</p>
+      <div class="underline"></div>
+    </div>
+    <div class="category-item">
+      <img src="img/campagne.png" alt="campagne" />
+      <p>Campagne</p>
+      <div class="underline"></div>
+    </div>
+    <div class="category-item">
+      <img src="img/cabanes.png" alt="Cabanes perchées" />
+      <p>Cabanes perchées</p>
+      <div class="underline"></div>
+    </div>
+    <div class="category-item">
+      <img src="img/granges.png" alt="granges" />
+      <p>Granges</p>
+      <div class="underline"></div>
+    </div>
+    <div class="category-item">
+      <img src="img/grandes-demeures.png" alt="grandesdemeures" />
+      <p>Grandes demeures</p>
+      <div class="underline"></div>
+    </div>
+  </section>
+
+  <section id="campagne" class="logement-section">
+    <h2>Campagne</h2>
+    <div class="logements-grid">
+      <article class="logement-card">
+        <img src="img/bagnolet.png" alt="Logement à Bagnolet" />
+        <div class="style-card">
+          <div>
+            <p>Bagnolet, France<br />Hôte : Rubens<br />20-25 nov.</p>
+            <p><strong>352 € par nuit</strong></p>
+          </div>
+          <div class="logement-rating">★ 4.82</div>
+        </div>
+      </article>
+
+      <article class="logement-card">
+        <img src="img/leslilas.png" alt="Logement aux Lilas" />
+        <div class="style-card">
+          <div>
+            <p>Les Lilas, France<br />Hôte : Michelle<br />1-6 janv.</p>
+            <p><strong>53 € par nuit</strong></p>
+
+          </div>
+          <div class="logement-rating">★ 4.83</div>
+      </article>
+
+      <article class="logement-card">
+        <img src="img/Alforville.png" alt="Logement à Alfortville" />
+        <div class="style-card">
+          <div>
+            <p>Alfortville, France<br />Hôte : Coralie<br />4-9 nov.</p>
+            <p><strong>191 € par nuit</strong></p>
+
+          </div>
+          <div class="logement-rating">★ 4.83</div>
+      </article>
+
+      <article class="logement-card">
+        <img src="img/vincenne.png" alt="Logement à Vincennes" />
+        <div class="style-card">
+          <div>
+            <p>Vincennes, France<br />Hôte : Margaret<br />6-11 nov.</p>
+            <p><strong>112 € par nuit</strong></p>
+
+          </div>
+          <div class="logement-rating">★ 4.94</div>
+      </article>
+
+      <article class="logement-card">
+        <img src="img/sevres.png" alt="Logement à Sèvres" />
+        <div class="style-card">
+          <div>
+            <p>Sèvres, France<br />Hôte : Michaela<br />5-10 nov.</p>
+            <p><strong>353 € par nuit</strong></p>
+
+          </div>
+          <div class="logement-rating">★ 4.8</div>
+      </article>
+
+      <article class="logement-card">
+        <img src="img/meudon.png" alt="Logement à Meudon" />
+        <div class="style-card">
+          <div>
+            <p>Meudon, France<br />Hôte : Anne<br />1-6 janv.</p>
+            <p><strong>190 € par nuit</strong></p>
+
+          </div>
+          <div class="logement-rating">★ 4.5</div>
+      </article>
+
+      <article class="logement-card">
+        <img src="img/bagneux.png" alt="Logement à Bagneux" />
+        <div class="style-card">
+          <div>
+            <p>Bagneux, France<br />Hôte : Haiying<br />10-15 nov.</p>
+            <p><strong>417 € par nuit</strong></p>
+
+          </div>
+          <div class="logement-rating">★ 5.0</div>
+      </article>
+
+      <article class="logement-card">
+        <img src="img/arcueil.png" alt="Logement à Arcueil" />
+        <div class="style-card">
+          <div>
+            <p>Arcueil, France<br />Hôte : Joana<br />12-17 janv.</p>
+            <p><strong>63 € par nuit</strong></p>
+
+          </div>
+          <div class="logement-rating">★ 5.0</div>
+      </article>
+      <article class="logement-card">
+        <img src="img/cachan.png" alt="Logement à Cachan" />
+        <div class="style-card">
+          <div>
+            <p>Cachan, France<br />Hôte : Professionnel<br />5-10 nov.</p>
+            <p><strong>303 € par nuit</strong></p>
+
+          </div>
+          <div class="logement-rating">★ Nouveau</div>
+      </article>
+
+      <article class="logement-card">
+        <img src="img/bagneux.png" alt="Logement à Bagneux" />
+        <div class="style-card">
+          <div>
+            <p>Bagneux, France<br />Hôte : Faouzi<br />5-10 nov.</p>
+            <p><strong>359 € par nuit</strong></p>
+
+          </div>
+          <div class="logement-rating">★ 4.86</div>
+      </article>
+
+      <article class="logement-card">
+        <img src="img/meudon2.png" alt="Logement à Meudon" />
+        <div class="style-card">
+          <div>
+            <p>Meudon, France<br />Hôte : Alexandre<br />15-20 nov.</p>
+            <p><strong>103 € par nuit</strong></p>
+
+          </div>
+          <div class="logement-rating">★ 5.0</div>
+      </article>
+
+      <article class="logement-card">
+        <img src="img/bezon.png" alt="Logement à Bezons" />
+        <div class="style-card">
+          <div>
+            <p>Bezons, France<br />Hôte : Farha<br />5-10 nov.</p>
+            <p><strong>598 € par nuit</strong></p>
+          </div>
+          <div class="logement-rating">★ 4.6</div>
+      </article>
+    </div>
+  </section>
+  <div class="show-more-container">
+    <button class="show-more-btn" onclick="loadMore()">Afficher plus</button>
+  </div>
+
+  <footer>
+    <div class="footer-container">
+      <div class="footer-section">
+        <h4>Assistance</h4>
+        <ul>
+          <li><a href="#">Centre d'aide</a></li>
+          <li><a href="#">AirCover</a></li>
+          <li><a href="#">Assistance handicap</a></li>
+          <li><a href="#">Options d'annulation</a></li>
+          <li><a href="#">J'ai un problème de voisinage</a></li>
+        </ul>
+      </div>
+      <div class="footer-section">
+        <h4>Accueil de voyageurs</h4>
+        <ul>
+          <li><a href="#">Mettez votre logement sur Airbnb</a></li>
+          <li><a href="#">AirCover pour les hôtes</a></li>
+          <li><a href="#">Ressources pour les hôtes</a></li>
+          <li><a href="#">Forum de la communauté</a></li>
+          <li><a href="#">Hébergement responsable</a></li>
+          <li>
+            <a href="#">Participez à un cours gratuit sur l'accueil de voyageurs</a>
+          </li>
+          <li><a href="#">Trouver un co-hôte</a></li>
+        </ul>
+      </div>
+      <div class="footer-section">
+        <h4>Airbnb</h4>
+        <ul>
+          <li><a href="#">Newsroom</a></li>
+          <li><a href="#">Nouvelles fonctionnalités</a></li>
+          <li><a href="#">Carrières</a></li>
+          <li><a href="#">Investisseurs</a></li>
+          <li><a href="#">Cartes cadeaux</a></li>
+          <li><a href="#">Séjours d'urgence Airbnb.org</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>© 2024 Airbnb, Inc.</p>
+      <ul class="footer-links">
+        <li><a href="#">Confidentialité</a></li>
+        <li><a href="#">Conditions générales</a></li>
+        <li><a href="#">Plan du site</a></li>
+        <li><a href="#">Fonctionnement du site</a></li>
+        <li><a href="#">Infos sur l'entreprise</a></li>
+      </ul>
+      <div class="footer-icons">
+        <span>€ EUR</span>
+        <span>Français (FR)</span>
+        <a href="https://www.instagram.com/airbnbmds/"><img src="img/insta.png" alt="Instagram" /></a>
+        <a href="https://www.tiktok.com/@airbnbmds"><img src="img/tiktok.png" alt="tiktok" /></a>
+        <a href="https://www.facebook.com/airbnbmds/"><img src="img/facebook.png" alt="Facebook" /></a>
+      </div>
+    </div>
+  </footer>
+
+</body>
+
+
+</html>

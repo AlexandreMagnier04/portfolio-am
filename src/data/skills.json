@@ -1,0 +1,91 @@
+{
+  "groups": [
+    {
+      "name": "Frameworks",
+      "items": [
+        "Angular",
+        "NestJS",
+        "SvelteKit",
+        "Tailwind CSS"
+      ]
+    },
+    {
+      "name": "Langages",
+      "items": [
+        "HTML/CSS",
+        "JavaScript",
+        "TypeScript",
+        "PHP",
+        "Python"
+      ]
+    },
+    {
+      "name": "Bases de données & ORM",
+      "items": [
+        "MySQL",
+        "PostgreSQL",
+        "Prisma",
+        "Drizzle"
+      ]
+    },
+    {
+      "name": "Tests",
+      "items": [
+        "Jest",
+        "Playwright"
+      ]
+    },
+    {
+      "name": "DevOps & Outils",
+      "items": [
+        "Docker",
+        "Git",
+        "WordPress"
+      ]
+    },
+    {
+      "name": "Méthodes",
+      "items": [
+        "Agile (Kanban)",
+        "MoSCoW",
+        "User stories",
+        "Definition of Done",
+        "TDD",
+        "Merise",
+        "UML"
+      ]
+    },
+    {
+      "name": "Notions",
+      "items": [
+        "C#",
+        "Flutter"
+      ]
+    }
+  ],
+  "softSkills": [
+    "Persévérant",
+    "Méticuleux",
+    "Organisé",
+    "Réactif",
+    "Curieux",
+    "Leadership"
+  ],
+  "languages": [
+    {
+      "name": "Français",
+      "level": "Langue natale"
+    },
+    {
+      "name": "Anglais",
+      "level": "A2"
+    }
+  ],
+  "interests": [
+    "Informatique",
+    "Sport (football, musculation, course à pied)",
+    "Cinéma",
+    "Musique",
+    "Jeux vidéo"
+  ]
+}

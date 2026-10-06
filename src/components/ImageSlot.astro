@@ -1,0 +1,40 @@
+---
+import { Image, getImage } from 'astro:assets';
+import type { ImageMetadata } from 'astro';
+
+interface Props {
+  src?: ImageMetadata;
+  alt: string;
+  /** dossier du projet, affiché dans la légende : <slug>/cover.png */
+  slug: string;
+  file?: string;
+  /** légende affichée à droite quand l'image est présente */
+  caption?: string;
+  /** l'image s'agrandit au clic (page projet) */
+  zoomable?: boolean;
+}
+const { src, alt, slug, file = 'cover.png', caption, zoomable = false } = Astro.props;
+// version agrandie : un WebP de 1800 px au plus, plutôt que le PNG d'origine (jusqu'à 5 Mo)
+const zoom = src && zoomable ? await getImage({ src, width: Math.min(src.width, 1800), format: 'webp' }) : undefined;
+---
+<figure class:list={['p__shot', !src && 'p__shot--empty']}>
+  {src && zoomable ? (
+    <button
+      type="button"
+      class="p__zoom"
+      data-zoom={zoom?.src ?? src.src}
+      data-alt={alt}
+      data-caption={caption ?? ''}
+      aria-label={`Agrandir l'image : ${alt}`}
+    >
+      <Image src={src} alt={alt} loading="lazy" widths={[480, 800, 1200]} sizes="(max-width: 900px) 100vw, 60vw" />
+    </button>
+  ) : src ? (
+    <Image src={src} alt={alt} loading="lazy" widths={[480, 800, 1200]} sizes="(max-width: 900px) 100vw, 60vw" />
+  ) : (
+    <div class="p__slot" role="img" aria-label="Capture à venir">
+      <span class="comment">capture à venir</span>
+    </div>
+  )}
+  <figcaption><span>{slug}/{file}</span><span>{src ? (caption ?? '') : 'emplacement réservé'}</span></figcaption>
+</figure>

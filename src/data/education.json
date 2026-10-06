@@ -1,0 +1,29 @@
+[
+  {
+    "degree": "Bachelor Développeur web",
+    "school": "MyDigitalSchool",
+    "place": "Lille (59000)",
+    "start": "09/2025",
+    "end": "07/2026",
+    "topics": [
+      "Conception logicielle",
+      "SQL",
+      "Développement API",
+      "Framework CSS",
+      "Application desktop",
+      "Application web",
+      "Application mobile",
+      "Design pattern",
+      "Infrastructure",
+      "Cybersécurité"
+    ]
+  },
+  {
+    "degree": "Bachelor Cycle Web et Multimédia",
+    "school": "MyDigitalSchool",
+    "place": "Lille (59000)",
+    "start": "09/2023",
+    "end": "06/2025",
+    "topics": ["Développement web", "CMS", "Web marketing", "Web design"]
+  }
+]

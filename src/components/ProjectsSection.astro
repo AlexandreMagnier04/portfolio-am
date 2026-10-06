@@ -1,0 +1,31 @@
+---
+import { getProjects } from '../lib/content';
+import ProjectCard from './ProjectCard.astro';
+
+// Tous les projets, du plus important au moins important (champ `order` des fiches) :
+// Respire, Marketplace, Gustichef d'abord.
+const projects = await getProjects();
+---
+<section id="projets" class="g sec proj" aria-labelledby="t-proj">
+  <header class="sec__head">
+    <p class="sec__cmd prompt">ls projets/</p>
+    <h2 class="sec__title" id="t-proj">projets<span class="slash">/</span></h2>
+  </header>
+
+  <div class="carousel" data-carousel role="region" aria-roledescription="carrousel" aria-label="Projets">
+    <ol class="carousel__track" tabindex="0" aria-label="Projets, faire défiler horizontalement">
+      {projects.map((project, i) => <ProjectCard project={project} index={i} total={projects.length} />)}
+    </ol>
+    <div class="carousel__bar">
+      <button type="button" class="carousel__btn" data-prev>← précédent</button>
+      <span class="carousel__progress" aria-hidden="true"><span data-progress></span></span>
+      <span class="carousel__count" data-count aria-live="polite">01 / {String(projects.length).padStart(2, '0')}</span>
+      <button type="button" class="carousel__btn" data-next>suivant →</button>
+    </div>
+  </div>
+
+</section>
+
+<script>
+  import '../scripts/carousel.ts';
+</script>

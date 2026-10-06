@@ -1,0 +1,41 @@
+---
+import Layout from './Layout.astro';
+import Tree from '../components/Tree.astro';
+
+interface Props {
+  title?: string;
+  description?: string;
+  treeItems: { href: string; label: string; target?: string; sub?: boolean }[];
+  cmdNav: { href: string; label: string }[];
+  foot?: { href: string; label: string };
+  /** libellé initial de la barre d'état, par ex. « README.md » */
+  here: string;
+}
+const { title, description, treeItems, cmdNav, foot, here } = Astro.props;
+---
+<Layout title={title} description={description}>
+  <div class="shell">
+    <Tree root="~/alexandre-magnier/" items={treeItems} foot={foot} />
+    <main id="contenu">
+      <div class="cmdbar">
+        <p class="cmdbar__path">alexandre-magnier<span>:</span>~</p>
+        <nav aria-label="Sections (mobile)">
+          <ul>
+            {cmdNav.map((l) => <li><a href={l.href}>{l.label}</a></li>)}
+          </ul>
+        </nav>
+        <button class="theme" id="theme-toggle" type="button" aria-label="theme --auto : changer de thème">theme --auto</button>
+      </div>
+      <slot />
+    </main>
+  </div>
+  <div class="status" aria-hidden="true">
+    <span class="status__path" id="status-path">~/alexandre-magnier/<span>{here}</span></span>
+    <span id="status-pos">haut</span>
+  </div>
+  <script>
+    import '../scripts/scroll-spy.ts';
+    import '../scripts/theme-toggle.ts';
+    import '../scripts/reveal.ts';
+  </script>
+</Layout>

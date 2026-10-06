@@ -1,0 +1,25 @@
+---
+import { profile } from '../lib/content';
+
+const bare = (url: string) => url.replace(/^https?:\/\//, '');
+const tel = `tel:+33${profile.phone.replace(/\s/g, '').replace(/^0/, '')}`;
+---
+<section id="contact" class="g sec" aria-labelledby="t-contact">
+  <header class="sec__head">
+    <p class="sec__cmd prompt">contact --all</p>
+    <h2 class="sec__title" id="t-contact">contact</h2>
+  </header>
+
+  <p class="contact__lead">{profile.seeking}. N'hésitez pas à me contacter.</p>
+
+  <a class="mail" href={`mailto:${profile.email}`}>{profile.email}</a>
+
+  <dl class="reach">
+    <dt>téléphone</dt><dd><a href={tel}>{profile.phone}</a></dd>
+    <dt>github</dt><dd><a href={profile.github}>{bare(profile.github)}</a></dd>
+    <dt>linkedin</dt><dd><a href={profile.linkedin}>{bare(profile.linkedin)}</a></dd>
+    <dt>cv</dt><dd><a href={profile.cv}>cv-alexandre-magnier.pdf</a> <span class="mute">(PDF)</span></dd>
+  </dl>
+
+  <p class="eof">— EOF —</p>
+</section>

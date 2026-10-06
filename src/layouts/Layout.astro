@@ -1,0 +1,59 @@
+---
+import '../styles/global.css';
+
+interface Props { title?: string; description?: string }
+const {
+  title = 'Alexandre Magnier — Développeur full stack, en recherche de poste',
+  description = "Alexandre Magnier, développeur full stack en recherche de poste : expériences, projets, compétences et contact.",
+} = Astro.props;
+---
+<!doctype html>
+<html lang="fr">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="color-scheme" content="light dark" />
+    <!-- Applique le thème mémorisé avant le premier affichage, pour éviter un flash clair -->
+    <script is:inline>
+      try {
+        var t = localStorage.getItem('theme');
+        if (t === 'light' || t === 'dark') document.documentElement.dataset.theme = t;
+      } catch (e) {}
+    </script>
+    <!-- Écran de chargement : seulement à la première visite de la session, jamais avec « réduire les animations » -->
+    <script is:inline>
+      try {
+        var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+        if (!reduce && !sessionStorage.getItem('loaded')) {
+          document.documentElement.classList.add('is-loading');
+          // filet de sécurité : si loader.ts ne se charge pas, l'écran ne bloque jamais la page
+          setTimeout(function () { document.documentElement.classList.remove('is-loading'); }, 5000);
+        }
+      } catch (e) {}
+    </script>
+    <meta name="description" content={description} />
+    <meta name="generator" content={Astro.generator} />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Martian+Mono:wdth,wght@75..112.5,100..800&display=swap"
+      rel="stylesheet"
+    />
+    <title>{title}</title>
+  </head>
+  <body>
+    <div class="loader" id="loader" aria-hidden="true">
+      <div class="loader__box">
+        <p class="loader__mark"><span>A</span><span>M</span></p>
+        <span class="loader__bar"></span>
+        <p class="loader__cmd"><span class="loader__typed">$ cat portfolio.md</span><i class="loader__cursor"></i></p>
+      </div>
+    </div>
+    <a class="skip" href="#contenu">Aller au contenu</a>
+    <slot />
+    <script>
+      import '../scripts/loader.ts';
+    </script>
+  </body>
+</html>

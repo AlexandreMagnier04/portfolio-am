@@ -1,0 +1,23 @@
+---
+import { displayStack } from '../lib/content';
+import { techIcon } from '../lib/tech';
+
+interface Props { stack: string[] }
+const items = displayStack(Astro.props.stack).map((name) => ({ name, icon: techIcon(name) }));
+---
+{items.length > 0 ? (
+  <ul class="stack-grid">
+    {items.map(({ name, icon }) => (
+      <li class="stack-tile">
+        {icon ? (
+          <span class="stack-tile__logo" style={`--logo: url(${icon.src})`} aria-hidden="true"></span>
+        ) : (
+          <span class="stack-tile__fallback" aria-hidden="true">{name}</span>
+        )}
+        <span class="stack-tile__name">{name}</span>
+      </li>
+    ))}
+  </ul>
+) : (
+  <p class="pending" style="grid-column:1/-1;margin:0">stack à renseigner</p>
+)}

@@ -1,0 +1,784 @@
+<!doctype html>
+<!--
+  Direction « graphique » — Archivo (variable : largeur + graisse) pour des titres massifs étirés et un texte courant net, IBM Plex Mono pour les métadonnées comme on annote une planche ;
+  palette réduite à l'encre, au papier, à un jaune signal et à un bleu cobalt (repris du fond de la photo) pour des aplats francs et des contrastes AA sans dégradé.
+-->
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Alexandre Magnier — Software Engineer</title>
+<meta name="description" content="Portfolio d'Alexandre Magnier, Software Engineer : expériences, projets, compétences et contact.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,400..900&family=IBM+Plex+Mono:wght@400;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ink: #111111;
+    --paper: #F2EFE6;
+    --signal: #FFD21F;
+    --cobalt: #2340D8;
+    --white: #FFFFFF;
+
+    --rule: 4px;
+    --rule-thin: 2px;
+    --gutter: clamp(16px, 2.4vw, 32px);
+    --mono: "IBM Plex Mono", ui-monospace, "SFMono-Regular", Menlo, monospace;
+    --sans: "Archivo", "Helvetica Neue", Arial, sans-serif;
+    --lift: 6px;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; }
+  html { -webkit-text-size-adjust: 100%; }
+  body {
+    margin: 0;
+    background: var(--paper);
+    color: var(--ink);
+    font-family: var(--sans);
+    font-variation-settings: "wdth" 100;
+    font-size: 1.0625rem;
+    line-height: 1.5;
+    overflow-x: hidden;
+  }
+  img { display: block; max-width: 100%; }
+  a { color: inherit; }
+  :focus-visible { outline: 4px solid var(--cobalt); outline-offset: 3px; }
+
+  .skip {
+    position: absolute; left: -9999px; top: 0;
+    background: var(--signal); padding: 12px 16px; font-family: var(--mono); font-weight: 600;
+    border: var(--rule) solid var(--ink); z-index: 10;
+  }
+  .skip:focus { left: 16px; top: 16px; }
+
+  /* ===== Planche : cadre global ===== */
+  .sheet {
+    max-width: 1440px;
+    margin: 0 auto;
+    border-left: var(--rule) solid var(--ink);
+    border-right: var(--rule) solid var(--ink);
+    background: var(--paper);
+  }
+
+  /* Règle de colonnes : la grille est rendue visible */
+  .ruler {
+    display: grid;
+    grid-template-columns: repeat(12, minmax(0, 1fr));
+    border-bottom: var(--rule) solid var(--ink);
+    font-family: var(--mono);
+    font-size: 0.6875rem;
+    letter-spacing: 0.04em;
+  }
+  .ruler span {
+    padding: 4px 6px;
+    border-right: var(--rule-thin) solid var(--ink);
+  }
+  .ruler span:last-child { border-right: 0; }
+
+  /* ===== Barre de navigation ===== */
+  .bar {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    align-items: stretch;
+    border-bottom: var(--rule) solid var(--ink);
+    font-family: var(--mono);
+    font-size: 0.875rem;
+  }
+  .bar .id {
+    padding: 14px var(--gutter);
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+  }
+  .bar nav ul { list-style: none; margin: 0; padding: 0; display: flex; height: 100%; }
+  .bar nav li { border-left: var(--rule) solid var(--ink); }
+  .bar nav a {
+    display: flex; align-items: center; height: 100%;
+    padding: 14px 18px;
+    text-decoration: none;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+  }
+  .bar nav a:hover { background: var(--ink); color: var(--paper); }
+  .bar nav .cv a { background: var(--signal); font-weight: 600; }
+  .bar nav .cv a:hover { background: var(--ink); color: var(--signal); }
+
+  /* ===== Hero ===== */
+  .hero {
+    display: grid;
+    grid-template-columns: repeat(12, minmax(0, 1fr));
+    border-bottom: var(--rule) solid var(--ink);
+  }
+  .hero-name {
+    grid-column: 1 / -1;
+    margin: 0;
+    padding: clamp(12px, 2vw, 28px) var(--gutter) 0;
+    font-weight: 900;
+    font-variation-settings: "wdth" 125;
+    text-transform: uppercase;
+    line-height: 0.82;
+    letter-spacing: -0.035em;
+    border-bottom: var(--rule) solid var(--ink);
+  }
+  .hero-name .first {
+    display: block;
+    font-size: clamp(2.1rem, 7.4vw, 6.75rem);
+    font-variation-settings: "wdth" 62;
+    letter-spacing: -0.01em;
+    margin-bottom: 0.08em;
+  }
+  .hero-name .last {
+    display: block;
+    font-size: min(13.4rem, calc((100vw - 2 * var(--gutter) - 12px) / 6.4));
+    padding-bottom: 0.06em;
+  }
+
+  .hero-title {
+    grid-column: 1 / 8;
+    background: var(--signal);
+    border-right: var(--rule) solid var(--ink);
+    padding: var(--gutter);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    gap: 28px;
+  }
+  .hero-title h2 {
+    margin: 0;
+    font-weight: 900;
+    font-variation-settings: "wdth" 115;
+    font-size: clamp(2.25rem, 5.6vw, 5rem);
+    line-height: 0.9;
+    text-transform: uppercase;
+    letter-spacing: -0.02em;
+  }
+  .hero-title .tagline {
+    margin: 0;
+    max-width: 58ch;
+    font-size: clamp(1.0625rem, 1.35vw, 1.25rem);
+    line-height: 1.45;
+  }
+  .hero-meta {
+    font-family: var(--mono);
+    font-size: 0.8125rem;
+    border-top: var(--rule-thin) solid var(--ink);
+    padding-top: 12px;
+    display: flex; flex-wrap: wrap; gap: 6px 24px;
+  }
+
+  .hero-photo {
+    grid-column: 8 / -1;
+    background: var(--cobalt);
+    position: relative;
+    display: grid;
+    place-items: center;
+    padding: clamp(24px, 4vw, 56px);
+    min-height: 320px;
+    overflow: hidden;
+  }
+  /* croix de repérage, comme une planche d'imprimerie */
+  .hero-photo::before, .hero-photo::after {
+    content: "";
+    position: absolute;
+    background: var(--paper);
+  }
+  .hero-photo::before { left: 50%; top: 0; bottom: 0; width: var(--rule-thin); transform: translateX(-50%); }
+  .hero-photo::after { top: 50%; left: 0; right: 0; height: var(--rule-thin); transform: translateY(-50%); }
+  .hero-photo img {
+    position: relative; z-index: 1;
+    width: min(100%, 340px);
+    aspect-ratio: 1;
+    object-fit: cover;
+    border-radius: 50%;
+    border: var(--rule) solid var(--ink);
+    box-shadow: 10px 10px 0 var(--ink);
+    background: var(--cobalt);
+  }
+  .hero-photo figcaption {
+    position: absolute; z-index: 1;
+    right: 0; bottom: 0;
+    background: var(--ink); color: var(--paper);
+    font-family: var(--mono); font-size: 0.75rem;
+    padding: 6px 10px;
+  }
+
+  /* ===== Sections ===== */
+  .section {
+    display: grid;
+    grid-template-columns: repeat(12, minmax(0, 1fr));
+    border-bottom: var(--rule) solid var(--ink);
+  }
+  .section-label {
+    grid-column: 1 / 3;
+    border-right: var(--rule) solid var(--ink);
+    padding: var(--gutter);
+    position: relative;
+  }
+  .section-label .num {
+    display: block;
+    font-weight: 900;
+    font-variation-settings: "wdth" 125;
+    font-size: clamp(3rem, 6vw, 5.5rem);
+    line-height: 0.85;
+    letter-spacing: -0.04em;
+  }
+  .section-label h2 {
+    margin: 12px 0 0;
+    font-family: var(--mono);
+    font-size: 0.875rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    position: sticky; top: 16px;
+  }
+  .section-body { grid-column: 3 / -1; min-width: 0; }
+
+  .kicker {
+    font-family: var(--mono);
+    font-size: 0.8125rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+
+  /* ===== Expériences ===== */
+  .xp-list { list-style: none; margin: 0; padding: 0; }
+  .xp {
+    display: grid;
+    grid-template-columns: minmax(150px, 2fr) 7fr 3fr;
+    border-bottom: var(--rule-thin) solid var(--ink);
+  }
+  .xp:last-child { border-bottom: 0; }
+  .xp > * { padding: 20px var(--gutter); }
+  .xp-date {
+    font-family: var(--mono);
+    font-size: 0.875rem;
+    border-right: var(--rule-thin) solid var(--ink);
+    line-height: 1.6;
+  }
+  .xp-date strong { display: block; font-size: 1rem; }
+  .xp-main h3 {
+    margin: 0 0 4px;
+    font-weight: 800;
+    font-variation-settings: "wdth" 110;
+    font-size: clamp(1.375rem, 2.2vw, 1.875rem);
+    line-height: 1.05;
+    text-transform: uppercase;
+    letter-spacing: -0.01em;
+  }
+  .xp-main .project { margin: 0 0 10px; font-weight: 600; }
+  .xp-main ul { margin: 0; padding-left: 1.1em; }
+  .xp-main li { margin: 2px 0; }
+  .xp-main li::marker { content: "— "; }
+  .xp-where {
+    border-left: var(--rule-thin) solid var(--ink);
+    font-family: var(--mono);
+    font-size: 0.875rem;
+  }
+  .xp-where .co {
+    display: block;
+    font-family: var(--sans);
+    font-weight: 900;
+    font-variation-settings: "wdth" 80;
+    font-size: 1.5rem;
+    line-height: 1;
+    text-transform: uppercase;
+    margin-bottom: 6px;
+  }
+  .xp-type {
+    display: inline-block;
+    margin-top: 8px;
+    font-weight: 600;
+    text-transform: uppercase;
+  }
+  .xp.is-current { background: var(--white); }
+  .xp.is-current .xp-date { background: var(--ink); color: var(--paper); }
+
+  .edu {
+    display: grid;
+    grid-template-columns: minmax(150px, 2fr) 10fr;
+    border-top: var(--rule) solid var(--ink);
+    background: var(--paper);
+  }
+  .edu > * { padding: 16px var(--gutter); }
+  .edu .kicker { border-right: var(--rule-thin) solid var(--ink); font-weight: 600; }
+  .edu ul { list-style: none; margin: 0; display: grid; gap: 6px; }
+  .edu li span { font-family: var(--mono); font-size: 0.875rem; margin-right: 12px; }
+
+  /* ===== Projets ===== */
+  .projects {
+    display: grid;
+    grid-template-columns: repeat(10, minmax(0, 1fr));
+  }
+  .proj {
+    position: relative;
+    display: flex; flex-direction: column;
+    border-bottom: var(--rule) solid var(--ink);
+    min-width: 0;
+  }
+  .proj:nth-last-child(-n+2) { border-bottom: 0; }
+  .proj-head {
+    padding: var(--gutter);
+    display: flex; flex-direction: column; gap: 10px;
+    flex: 1;
+  }
+  .proj h3 {
+    margin: 0;
+    font-weight: 900;
+    font-variation-settings: "wdth" 100;
+    font-size: clamp(1.625rem, 2.6vw, 2.5rem);
+    line-height: 0.95;
+    text-transform: uppercase;
+    letter-spacing: -0.015em;
+  }
+  .proj p { margin: 0; max-width: 52ch; }
+  .stack {
+    font-family: var(--mono);
+    font-size: 0.8125rem;
+    margin-top: auto;
+    padding-top: 8px;
+  }
+  .stack::before { content: "STACK / "; font-weight: 600; }
+  .proj-shot {
+    border-top: var(--rule) solid var(--ink);
+    background: var(--white);
+    aspect-ratio: 16 / 9;
+    overflow: hidden;
+  }
+  .proj-shot img { width: 100%; height: 100%; object-fit: cover; object-position: top left; }
+
+  /* composition tendue : tailles et couleurs alternées */
+  .p1 { grid-column: 1 / 7; background: var(--ink); color: var(--paper); border-right: var(--rule) solid var(--ink); }
+  .p2 { grid-column: 7 / -1; background: var(--cobalt); color: var(--white); }
+  .p3 { grid-column: 1 / 5; border-right: var(--rule) solid var(--ink); background: var(--paper); }
+  .p4 { grid-column: 5 / -1; background: var(--signal); }
+  .p1 h3 { font-size: clamp(1.875rem, 3.6vw, 3.25rem); font-variation-settings: "wdth" 112; }
+  .p4 h3 { font-variation-settings: "wdth" 112; }
+  .p3 .proj-shot { aspect-ratio: 4 / 3; }
+
+  .pending {
+    margin-top: auto;
+    align-self: flex-start;
+    font-family: var(--mono);
+    font-size: 0.8125rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    border: var(--rule-thin) solid currentColor;
+    padding: 6px 10px;
+  }
+  .p1 .pending { margin-top: 18px; }
+
+  /* ===== Compétences ===== */
+  .skills { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .skill-group {
+    padding: 18px var(--gutter) 22px;
+    border-bottom: var(--rule-thin) solid var(--ink);
+  }
+  .skill-group:nth-child(odd) { border-right: var(--rule-thin) solid var(--ink); }
+  .skill-group h3 {
+    margin: 0 0 8px;
+    font-family: var(--mono);
+    font-size: 0.8125rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+  }
+  .skill-group p {
+    margin: 0;
+    font-weight: 800;
+    font-variation-settings: "wdth" 75;
+    font-size: clamp(1.5rem, 2.6vw, 2.25rem);
+    line-height: 1.05;
+    text-transform: uppercase;
+  }
+  .skill-group p .sep { color: var(--cobalt); padding: 0 0.15em; }
+  .skill-group.core { background: var(--ink); color: var(--paper); }
+  .skill-group.core p .sep { color: var(--signal); }
+  .skills-foot {
+    grid-column: 1 / -1;
+    display: grid; grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+  .skills-foot > div { padding: 18px var(--gutter); }
+  .skills-foot > div:first-child { border-right: var(--rule-thin) solid var(--ink); }
+  .skills-foot p { margin: 6px 0 0; }
+
+  /* ===== Contact ===== */
+  .contact {
+    display: grid;
+    grid-template-columns: repeat(12, minmax(0, 1fr));
+    background: var(--signal);
+    border-bottom: var(--rule) solid var(--ink);
+  }
+  .contact .section-label { border-right-color: var(--ink); }
+  .contact-body { grid-column: 3 / -1; min-width: 0; }
+  .contact-lead {
+    margin: 0;
+    padding: var(--gutter);
+    border-bottom: var(--rule) solid var(--ink);
+    font-weight: 900;
+    font-variation-settings: "wdth" 125;
+    text-transform: uppercase;
+    font-size: clamp(2.5rem, 8vw, 7.5rem);
+    line-height: 0.85;
+    letter-spacing: -0.04em;
+  }
+  .contact-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+  .contact-grid > * {
+    padding: var(--gutter);
+    border-bottom: var(--rule-thin) solid var(--ink);
+    min-width: 0;
+  }
+  .contact-grid > *:nth-child(odd) { border-right: var(--rule-thin) solid var(--ink); }
+  .contact-grid .kicker { display: block; margin-bottom: 8px; }
+
+  /* Interaction signature : les liens d'action « se soulèvent » avec une ombre portée dure */
+  .press {
+    display: inline-block;
+    font-weight: 800;
+    font-variation-settings: "wdth" 90;
+    font-size: clamp(1.125rem, 2vw, 1.625rem);
+    text-decoration: none;
+    background: var(--paper);
+    border: var(--rule) solid var(--ink);
+    padding: 10px 14px;
+    max-width: 100%;
+    overflow-wrap: anywhere;
+    transition: transform 120ms ease-out, box-shadow 120ms ease-out;
+  }
+  .press:hover, .press:focus-visible {
+    transform: translate(calc(var(--lift) * -1), calc(var(--lift) * -1));
+    box-shadow: var(--lift) var(--lift) 0 var(--ink);
+  }
+  .press:active { transform: none; box-shadow: none; }
+  .press.cv { background: var(--ink); color: var(--signal); }
+  .press.cv:hover, .press.cv:focus-visible { box-shadow: var(--lift) var(--lift) 0 var(--cobalt); }
+
+  footer {
+    display: flex; justify-content: space-between; flex-wrap: wrap; gap: 8px;
+    padding: 14px var(--gutter);
+    font-family: var(--mono);
+    font-size: 0.75rem;
+    background: var(--ink); color: var(--paper);
+  }
+
+  /* ===== Responsive ===== */
+  @media (max-width: 1080px) {
+    .hero-title { grid-column: 1 / 8; }
+    .xp { grid-template-columns: minmax(130px, 2fr) 8fr; }
+    .xp-where { grid-column: 2; border-left: 0; padding-top: 0; }
+    .xp-where .co { display: inline; font-size: 1.125rem; margin-right: 8px; }
+    .xp-date { grid-row: span 2; }
+  }
+
+  @media (max-width: 860px) {
+    .ruler { grid-template-columns: repeat(6, minmax(0, 1fr)); }
+    .ruler span:nth-child(n+7) { display: none; }
+    .ruler span:nth-child(6) { border-right: 0; }
+
+    .hero-title, .hero-photo { grid-column: 1 / -1; }
+    .hero-title { border-right: 0; border-bottom: var(--rule) solid var(--ink); }
+    .hero-photo { min-height: 0; }
+    .hero-photo img { width: min(70vw, 300px); }
+
+    .section-label, .section-body, .contact-body { grid-column: 1 / -1; }
+    .section-label {
+      border-right: 0;
+      border-bottom: var(--rule) solid var(--ink);
+      display: flex; align-items: baseline; gap: 16px;
+      padding-top: 14px; padding-bottom: 14px;
+    }
+    .section-label h2 { margin: 0; position: static; }
+    .contact .section-label { border-bottom-color: var(--ink); }
+
+    .projects { grid-template-columns: minmax(0, 1fr); }
+    .p1, .p2, .p3, .p4 { grid-column: 1 / -1; border-right: 0; }
+    .proj:nth-last-child(-n+2) { border-bottom: var(--rule) solid var(--ink); }
+    .proj:last-child { border-bottom: 0; }
+    .p3 .proj-shot { aspect-ratio: 16 / 9; }
+  }
+
+  @media (max-width: 640px) {
+    body { font-size: 1rem; }
+    .skill-group p { font-size: 1.375rem; }
+    .bar { grid-template-columns: minmax(0, 1fr); }
+    .bar .id { border-bottom: var(--rule) solid var(--ink); }
+    .bar nav ul { flex-wrap: wrap; }
+    .bar nav li { flex: 1 1 auto; border-left: 0; border-right: var(--rule-thin) solid var(--ink); }
+    .bar nav li:last-child { border-right: 0; }
+    .bar nav a { justify-content: center; padding: 12px 10px; font-size: 0.8125rem; }
+
+    .xp { grid-template-columns: minmax(0, 1fr); }
+    .xp-date { grid-row: auto; border-right: 0; border-bottom: var(--rule-thin) solid var(--ink); padding-top: 12px; padding-bottom: 12px; }
+    .xp-date strong { display: inline; margin-right: 8px; }
+    .xp-where { grid-column: 1; padding-top: 0; }
+    .edu { grid-template-columns: minmax(0, 1fr); }
+    .edu .kicker { border-right: 0; border-bottom: var(--rule-thin) solid var(--ink); }
+
+    .skills, .skills-foot, .contact-grid { grid-template-columns: minmax(0, 1fr); }
+    .skill-group:nth-child(odd), .skills-foot > div:first-child, .contact-grid > *:nth-child(odd) { border-right: 0; }
+    .skills-foot > div:first-child { border-bottom: var(--rule-thin) solid var(--ink); }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after { transition: none !important; animation: none !important; }
+    .press:hover, .press:focus-visible { transform: none; box-shadow: none; outline: 4px solid var(--cobalt); outline-offset: 3px; }
+  }
+</style>
+</head>
+<body>
+<a class="skip" href="#contenu">Aller au contenu</a>
+
+<div class="sheet">
+  <div class="ruler" aria-hidden="true">
+    <span>01</span><span>02</span><span>03</span><span>04</span><span>05</span><span>06</span><span>07</span><span>08</span><span>09</span><span>10</span><span>11</span><span>12</span>
+  </div>
+
+  <header class="bar">
+    <div class="id">A. Magnier / Portfolio</div>
+    <nav aria-label="Sections">
+      <ul>
+        <li><a href="#experiences">Parcours</a></li>
+        <li><a href="#projets">Projets</a></li>
+        <li><a href="#competences">Stack</a></li>
+        <li><a href="#contact">Contact</a></li>
+        <li class="cv"><a href="../../public/cv-alexandre-magnier.pdf">CV (PDF)</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <main id="contenu">
+    <section class="hero" aria-labelledby="nom">
+      <h1 class="hero-name" id="nom">
+        <span class="first">Alexandre</span>
+        <span class="last">Magnier</span>
+      </h1>
+
+      <div class="hero-title">
+        <h2>Software<br>Engineer</h2>
+        <p class="tagline">Diplômé Concepteur Développeur d'Applications, j'ai une expérience concrète en entreprise&nbsp;: applications développées de bout en bout, refonte UX/UI, intégration d'IA et d'API. Je suis particulièrement à l'aise avec l'écosystème Node.js et je m'adapte à d'autres langages et technologies selon les besoins.</p>
+        <div class="hero-meta">
+          <span>Actuellement&nbsp;: alternance chez IESI</span>
+          <span>Lille · Douai · Lens · Arras</span>
+        </div>
+      </div>
+
+      <figure class="hero-photo" style="margin:0">
+        <img src="../../src/assets/photo.png" alt="Portrait d'Alexandre Magnier" width="400" height="400">
+        <figcaption>fig. 01 — A. Magnier</figcaption>
+      </figure>
+    </section>
+
+    <!-- 01 EXPÉRIENCES -->
+    <section class="section" id="experiences" aria-labelledby="t-xp">
+      <div class="section-label">
+        <span class="num" aria-hidden="true">01</span>
+        <h2 id="t-xp">Expériences</h2>
+      </div>
+      <div class="section-body">
+        <ol class="xp-list" reversed>
+          <li class="xp is-current">
+            <div class="xp-date"><strong>09/2025</strong>→ 06/2026</div>
+            <div class="xp-main">
+              <h3>Développeur web</h3>
+              <p class="project">Application de diffusion de contenus multimédias avec abonnement</p>
+              <ul>
+                <li>Conception et développement de bout en bout&nbsp;: de l'architecture technique à la mise en production</li>
+                <li>Mise en place d'un système d'abonnement (gestion des utilisateurs, accès aux contenus)</li>
+                <li>Gestion autonome du cycle de vie du projet</li>
+              </ul>
+            </div>
+            <div class="xp-where"><span class="co">IESI</span>Mérignies<br><span class="xp-type">[Alternance]</span></div>
+          </li>
+          <li class="xp">
+            <div class="xp-date"><strong>08/2025</strong>→ 09/2025</div>
+            <div class="xp-main">
+              <h3>Développeur front-end</h3>
+              <p class="project">Refonte responsive &amp; optimisation UX/UI</p>
+              <ul>
+                <li>Refonte de sites existants avec une approche mobile-first (Tailwind)</li>
+                <li>Application de principes de clean code pour améliorer la maintenabilité</li>
+                <li>Optimisation de l'expérience utilisateur</li>
+              </ul>
+            </div>
+            <div class="xp-where"><span class="co">IESI</span>Mérignies<br><span class="xp-type">[CDD]</span></div>
+          </li>
+          <li class="xp">
+            <div class="xp-date"><strong>04/2025</strong>→ 06/2025</div>
+            <div class="xp-main">
+              <h3>Développeur web</h3>
+              <p class="project">Marketplace pour des unions commerciales</p>
+              <ul>
+                <li>Développement du front-end avec intégration d'API REST</li>
+                <li>Utilisation de l'IA pour assister les commerçants dans la création de leur vitrine en ligne</li>
+                <li>Refonte partielle du backend existant pour fluidifier le développement</li>
+              </ul>
+            </div>
+            <div class="xp-where"><span class="co">La Marmite Digitale</span>Ronchin<br><span class="xp-type">[Stage]</span></div>
+          </li>
+          <li class="xp">
+            <div class="xp-date"><strong>04/2024</strong>→ 06/2024</div>
+            <div class="xp-main">
+              <h3>Développeur web</h3>
+              <ul>
+                <li>Développement d'une interface affichant des tickets clients en temps réel, connectée à une API REST et déployée via Docker</li>
+                <li>Conception d'une sonde de supervision collectant RAM et stockage des postes, avec API REST et interface de visualisation</li>
+              </ul>
+            </div>
+            <div class="xp-where"><span class="co">IESI</span>Mérignies<br><span class="xp-type">[Stage]</span></div>
+          </li>
+        </ol>
+
+        <div class="edu">
+          <div class="kicker">Formation</div>
+          <ul>
+            <li><span>2025 → 2026</span>Bachelor Développeur web — MyDigitalSchool, Lille</li>
+            <li><span>2023 → 2025</span>Bachelor Cycle Web et Multimédia — MyDigitalSchool, Lille</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- 02 PROJETS -->
+    <section class="section" id="projets" aria-labelledby="t-proj">
+      <div class="section-label">
+        <span class="num" aria-hidden="true">02</span>
+        <h2 id="t-proj">Projets choisis</h2>
+      </div>
+      <div class="section-body projects">
+        <article class="proj p1">
+          <div class="proj-head">
+            <span class="kicker">Alternance · IESI · 2025 → 2026</span>
+            <h3>Application de diffusion de contenus multimédias</h3>
+            <p>Application de diffusion de contenus multimédias avec abonnement, développée en alternance chez IESI.</p>
+            <span class="pending">Détails à venir</span>
+          </div>
+        </article>
+
+        <article class="proj p2">
+          <div class="proj-head">
+            <span class="kicker">Stage · La Marmite Digitale · 2025</span>
+            <h3>Marketplace pour unions commerciales</h3>
+            <p>Marketplace pour des unions commerciales, avec assistance par IA à la création des vitrines des commerçants.</p>
+            <span class="stack">API REST · IA</span>
+            <span class="pending">Détails à venir</span>
+          </div>
+        </article>
+
+        <article class="proj p3">
+          <div class="proj-head">
+            <span class="kicker">Stage · IESI · 2024</span>
+            <h3>Sonde de supervision</h3>
+            <p>Sonde qui relève la RAM et le stockage des postes, avec API REST et interface de visualisation.</p>
+            <span class="stack">Python · Angular · NestJS · API REST</span>
+          </div>
+          <div class="proj-shot">
+            <img src="../../src/assets/projects/sonde/cover.png" alt="Interface de la sonde : tableau des alertes RAM et stockage par machine, avec valeur, statut et seuil" loading="lazy">
+          </div>
+        </article>
+
+        <article class="proj p4">
+          <div class="proj-head">
+            <span class="kicker">Stage · IESI · 2024</span>
+            <h3>Écran atelier&nbsp;: tickets clients en temps réel</h3>
+            <p>Interface affichant en temps réel les tickets envoyés par les clients d'IESI, connectée à une API REST et déployée via Docker.</p>
+            <span class="stack">Angular · NestJS · API REST · Docker</span>
+          </div>
+          <div class="proj-shot">
+            <img src="../../src/assets/projects/tickets-iesi/cover.png" alt="Écran atelier : colonnes de tickets et de tâches avec compteurs ouverts, en cours, gelés et en retard" loading="lazy">
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <!-- 03 COMPÉTENCES -->
+    <section class="section" id="competences" aria-labelledby="t-skills">
+      <div class="section-label">
+        <span class="num" aria-hidden="true">03</span>
+        <h2 id="t-skills">Compétences</h2>
+      </div>
+      <div class="section-body skills">
+        <div class="skill-group core">
+          <h3>Langages</h3>
+          <p>HTML/CSS<span class="sep">/</span><wbr>JavaScript<span class="sep">/</span><wbr>TypeScript<span class="sep">/</span><wbr>PHP<span class="sep">/</span><wbr>Python</p>
+        </div>
+        <div class="skill-group">
+          <h3>Frameworks</h3>
+          <p>Angular<span class="sep">/</span><wbr>Tailwind CSS<span class="sep">/</span><wbr>NestJS</p>
+        </div>
+        <div class="skill-group">
+          <h3>Bases de données &amp; ORM</h3>
+          <p>MySQL<span class="sep">/</span><wbr>PostgreSQL<span class="sep">/</span><wbr>Prisma<span class="sep">/</span><wbr>Drizzle</p>
+        </div>
+        <div class="skill-group">
+          <h3>Tests</h3>
+          <p>Jest<span class="sep">/</span><wbr>Playwright</p>
+        </div>
+        <div class="skill-group">
+          <h3>DevOps &amp; Outils</h3>
+          <p>Docker<span class="sep">/</span><wbr>Git<span class="sep">/</span><wbr>WordPress</p>
+        </div>
+        <div class="skill-group">
+          <h3>Notions</h3>
+          <p>C#<span class="sep">/</span><wbr>Flutter<span class="sep">/</span><wbr>Svelte</p>
+        </div>
+        <div class="skills-foot">
+          <div>
+            <span class="kicker">Savoir-être</span>
+            <p>Persévérant, méticuleux, organisé, réactif, curieux. Leadership.</p>
+          </div>
+          <div>
+            <span class="kicker">Langues</span>
+            <p>Français — langue natale · Anglais — A2</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 04 CONTACT -->
+    <section class="contact" id="contact" aria-labelledby="t-contact">
+      <div class="section-label">
+        <span class="num" aria-hidden="true">04</span>
+        <h2 id="t-contact">Contact</h2>
+      </div>
+      <div class="contact-body">
+        <p class="contact-lead">Écrivez-<br>moi.</p>
+        <div class="contact-grid">
+          <div>
+            <span class="kicker">Email</span>
+            <a class="press" href="mailto:a.magnier.pro@gmail.com">a.magnier.pro@gmail.com</a>
+          </div>
+          <div>
+            <span class="kicker">Téléphone</span>
+            <a class="press" href="tel:+33699691514">06 99 69 15 14</a>
+          </div>
+          <div>
+            <span class="kicker">GitHub</span>
+            <a class="press" href="https://github.com/AlexandreMagnier04">AlexandreMagnier04</a>
+          </div>
+          <div>
+            <span class="kicker">LinkedIn</span>
+            <a class="press" href="https://www.linkedin.com/in/alexandre-magnier">alexandre-magnier</a>
+          </div>
+          <div>
+            <span class="kicker">Curriculum vitæ</span>
+            <a class="press cv" href="../../public/cv-alexandre-magnier.pdf">Télécharger le CV (PDF)</a>
+          </div>
+          <div>
+            <span class="kicker">Mobilité</span>
+            <p style="margin:0">Mobile sur Lille, Douai, Lens et Arras · Permis B, véhiculé</p>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <span>Alexandre Magnier — Software Engineer</span>
+    <span>Maquette « graphique »</span>
+  </footer>
+</div>
+</body>
+</html>

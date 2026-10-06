@@ -1,0 +1,17 @@
+---
+import Shell from '../layouts/Shell.astro';
+---
+<Shell
+  title="Introuvable — Alexandre Magnier"
+  treeItems={[{ href: '/', label: '../ accueil' }]}
+  cmdNav={[{ href: '/', label: '← accueil' }]}
+  here="404"
+>
+  <section class="g hero">
+    <header class="sec__head">
+      <p class="sec__cmd prompt">cd cette-page</p>
+      <h1 class="sec__title">Error 404: command not found<span class="slash"></span></h1>
+    </header>
+    <p class="notfound"><a href="/">Retour à l'accueil</a></p>
+  </section>
+</Shell>

@@ -1,0 +1,29 @@
+---
+import { experience, stripPostcode } from '../lib/content';
+---
+<section id="experiences" class="g sec" aria-labelledby="t-exp">
+  <header class="sec__head">
+    <p class="sec__cmd prompt">ls -lt experiences/</p>
+    <h2 class="sec__title" id="t-exp">experiences<span class="slash">/</span></h2>
+  </header>
+
+  <ol class="log" reversed>
+    {experience.map((job) => (
+      <li class="log__row">
+        <p class="log__date" style="margin:0"><b>{job.start}</b>→ {job.end}</p>
+        <div>
+          <h3 class="log__role">{job.role}</h3>
+          {job.project && <p class="log__project">{job.project}</p>}
+          <ul style={job.project ? undefined : 'margin-top:.6rem'}>
+            {job.bullets.map((b) => <li>{b}</li>)}
+          </ul>
+        </div>
+        <p class="log__where" style="margin:0">
+          <b>{job.company}</b>
+          <span class="mute">{job.type.toLowerCase()} · {stripPostcode(job.place)}</span>
+        </p>
+      </li>
+    ))}
+  </ol>
+
+</section>

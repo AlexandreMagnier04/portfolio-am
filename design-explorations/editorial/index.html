@@ -1,0 +1,618 @@
+<!doctype html>
+<!--
+  Direction « éditorial » — Newsreader (serif de presse à tailles optiques, du titre géant au texte courant) + Schibsted Grotesk (grotesque née dans une rédaction, pour les folios et légendes) ;
+  palette papier #F3EEE4 / encre #1C1A17 / encre douce #5B544A / filet #CBC1B0 / un seul accent vermillon #B4321E, parce qu'un magazine tient sur le contraste encre-papier et n'a besoin que d'une couleur pour pointer l'essentiel.
+-->
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Alexandre Magnier — Software Engineer</title>
+<meta name="description" content="Portfolio d'Alexandre Magnier, Software Engineer : expériences, projets choisis, compétences et contact.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,300..700;1,6..72,300..700&family=Schibsted+Grotesk:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --paper: #F3EEE4;
+    --ink: #1C1A17;
+    --ink-soft: #5B544A;   /* 6.6:1 sur papier */
+    --rule: #CBC1B0;       /* filets décoratifs uniquement */
+    --accent: #B4321E;     /* 5.4:1 sur papier */
+
+    --serif: "Newsreader", "Iowan Old Style", "Palatino Linotype", Georgia, serif;
+    --sans: "Schibsted Grotesk", "Helvetica Neue", Arial, sans-serif;
+
+    --gutter: clamp(1rem, 3.5vw, 3rem);
+    --col-gap: clamp(1rem, 2.5vw, 2.5rem);
+    --max: 1440px;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; }
+  html { -webkit-text-size-adjust: 100%; }
+  body {
+    margin: 0;
+    background: var(--paper);
+    color: var(--ink);
+    font-family: var(--serif);
+    font-optical-sizing: auto;
+    font-size: clamp(1.0625rem, 0.98rem + 0.3vw, 1.1875rem);
+    line-height: 1.55;
+    font-kerning: normal;
+    font-variant-numeric: oldstyle-nums proportional-nums;
+    text-rendering: optimizeLegibility;
+  }
+  img { display: block; max-width: 100%; height: auto; }
+  a { color: inherit; }
+  ::selection { background: var(--accent); color: var(--paper); }
+  :focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
+
+  .skip {
+    position: absolute; left: var(--gutter); top: -4rem;
+    background: var(--ink); color: var(--paper);
+    padding: .5rem .75rem; font-family: var(--sans); font-size: .85rem; z-index: 10;
+  }
+  .skip:focus { top: .75rem; }
+
+  .page {
+    max-width: var(--max);
+    margin: 0 auto;
+    padding: 0 var(--gutter) clamp(2rem, 5vw, 4rem);
+  }
+
+  /* Grille de base : 12 colonnes */
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(12, minmax(0, 1fr));
+    column-gap: var(--col-gap);
+  }
+
+  /* Petites capitales / folios */
+  .label {
+    font-family: var(--sans);
+    font-size: .75rem;
+    font-weight: 500;
+    letter-spacing: .12em;
+    text-transform: uppercase;
+    color: var(--ink-soft);
+    font-variant-numeric: lining-nums tabular-nums;
+  }
+  .num { font-variant-numeric: lining-nums tabular-nums; }
+
+  /* ---------- Bandeau ---------- */
+  .masthead {
+    display: flex; flex-wrap: wrap; gap: .5rem 1.5rem;
+    justify-content: space-between; align-items: baseline;
+    padding: 1.1rem 0 .7rem;
+    border-bottom: 3px double var(--ink);
+  }
+  .masthead nav ul { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; gap: .25rem 1.25rem; }
+  .masthead nav a { text-decoration: none; color: var(--ink); }
+  .masthead nav a:hover { color: var(--accent); }
+  .masthead nav a span { color: var(--accent); margin-right: .3em; }
+
+  /* ---------- Une ---------- */
+  .front {
+    padding-top: clamp(1.5rem, 4vw, 3rem);
+    row-gap: 1.5rem;
+  }
+  .front .kicker { grid-column: 1 / -1; display: flex; justify-content: space-between; gap: 1rem; flex-wrap: wrap; }
+  .kicker .accent { color: var(--accent); }
+
+  .name {
+    grid-column: 1 / -1;
+    margin: 0;
+    font-weight: 300;
+    font-size: clamp(3.6rem, 15.5vw, 14.5rem);
+    line-height: .84;
+    letter-spacing: -.035em;
+    font-variation-settings: "opsz" 72;
+  }
+  .name .l1 { display: block; }
+  .name .l2 {
+    display: block;
+    font-style: italic;
+    font-weight: 400;
+    padding-left: clamp(0rem, 14vw, 13rem);
+  }
+  .name .l2::after { content: "."; color: var(--accent); font-style: normal; }
+
+  .front-rule { grid-column: 1 / -1; border: 0; border-top: 1px solid var(--ink); margin: .5rem 0 0; }
+
+  .portrait { grid-column: 1 / span 3; margin: 0; }
+  .portrait img {
+    width: 100%; aspect-ratio: 4 / 5; object-fit: cover; object-position: 50% 20%;
+    filter: grayscale(1) contrast(1.05);
+    mix-blend-mode: multiply;
+  }
+  .portrait figcaption { margin-top: .5rem; }
+
+  .lede-wrap { grid-column: 5 / span 6; }
+  .role {
+    margin: 0 0 1rem;
+    font-size: clamp(1.4rem, 1.1rem + 1.2vw, 2.1rem);
+    line-height: 1.15;
+    font-style: italic;
+  }
+  .role b { font-style: normal; font-weight: 500; }
+  .lede {
+    margin: 0;
+    font-size: clamp(1.15rem, 1rem + .45vw, 1.4rem);
+    line-height: 1.5;
+    hyphens: auto;
+  }
+  .lede::first-letter {
+    float: left;
+    font-size: 4.6em;
+    line-height: .78;
+    font-weight: 500;
+    margin: .06em .08em 0 -.03em;
+    color: var(--accent);
+    font-variation-settings: "opsz" 72;
+  }
+  .front-side {
+    grid-column: 11 / span 2;
+    border-left: 1px solid var(--rule);
+    padding-left: 1rem;
+    align-self: start;
+    font-size: .95rem;
+    line-height: 1.45;
+  }
+  .front-side p { margin: .3rem 0 1.1rem; }
+  .front-side a.cv {
+    font-family: var(--sans); font-weight: 600; font-size: .9rem;
+    text-decoration: none; border-bottom: 2px solid var(--accent); padding-bottom: 1px;
+  }
+  .front-side a.cv:hover { color: var(--accent); }
+
+  /* ---------- Rubriques ---------- */
+  .section { margin-top: clamp(4rem, 9vw, 8rem); }
+  .section-head {
+    display: grid;
+    grid-template-columns: repeat(12, minmax(0, 1fr));
+    column-gap: var(--col-gap);
+    align-items: end;
+    border-top: 1px solid var(--ink);
+    padding-top: .6rem;
+    margin-bottom: clamp(1.5rem, 3.5vw, 3rem);
+  }
+  .section-head .folio { grid-column: 1 / span 2; color: var(--accent); }
+  .section-head h2 {
+    grid-column: 3 / -1;
+    margin: 0;
+    font-weight: 400;
+    font-size: clamp(2.4rem, 1.4rem + 4.6vw, 5.5rem);
+    line-height: .95;
+    letter-spacing: -.02em;
+    font-variation-settings: "opsz" 72;
+  }
+  .section-head h2 em { color: var(--ink-soft); }
+
+  /* ---------- Expériences ---------- */
+  .xp { list-style: none; margin: 0; padding: 0; counter-reset: xp; }
+  .xp-item {
+    position: relative;
+    display: grid;
+    grid-template-columns: repeat(12, minmax(0, 1fr));
+    column-gap: var(--col-gap);
+    padding: 1.4rem 0 1.6rem;
+    border-bottom: 1px solid var(--rule);
+  }
+  /* Interaction signature : le filet vermillon se trace sous la ligne survolée */
+  .xp-item::after {
+    content: "";
+    position: absolute; left: 0; right: 0; bottom: -1px;
+    height: 2px; background: var(--accent);
+    transform: scaleX(0); transform-origin: left;
+    transition: transform .55s cubic-bezier(.2,.7,.1,1);
+  }
+  .xp-item:hover::after, .xp-item:focus-within::after { transform: scaleX(1); }
+
+  .xp-dates { grid-column: 1 / span 2; padding-top: .35rem; }
+  .xp-dates .label { display: block; }
+  .xp-dates .type { color: var(--accent); margin-top: .35rem; }
+  .xp-main { grid-column: 3 / span 6; }
+  .xp-main h3 {
+    margin: 0;
+    font-weight: 400;
+    font-size: clamp(1.6rem, 1.2rem + 1.6vw, 2.6rem);
+    line-height: 1.05;
+    letter-spacing: -.01em;
+  }
+  .xp-main h3 i { color: var(--ink-soft); }
+  .xp-main .project { margin: .6rem 0 0; font-style: italic; font-size: 1.1em; }
+  .xp-points { grid-column: 9 / -1; margin: 0; padding: .35rem 0 0; list-style: none; font-size: .95rem; line-height: 1.45; }
+  .xp-points li { padding-left: 1.1em; text-indent: -1.1em; margin-bottom: .45rem; }
+  .xp-points li::before { content: "— "; color: var(--ink-soft); }
+
+  .education {
+    margin-top: 1.4rem;
+    display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); column-gap: var(--col-gap);
+  }
+  .education .label { grid-column: 1 / span 2; padding-top: .2rem; }
+  .education p { grid-column: 3 / span 8; margin: 0; color: var(--ink-soft); font-size: .98rem; }
+  .education p strong { color: var(--ink); font-weight: 500; }
+
+  /* ---------- Projets ---------- */
+  .projects { row-gap: clamp(3rem, 6vw, 5rem); }
+
+  .proj { margin: 0; }
+  .proj .meta { display: flex; gap: 1rem; flex-wrap: wrap; align-items: baseline; border-top: 1px solid var(--ink); padding-top: .5rem; }
+  .proj .meta .n { color: var(--accent); }
+  .proj h3 {
+    margin: .6rem 0 .6rem;
+    font-weight: 400;
+    line-height: 1.02;
+    letter-spacing: -.015em;
+  }
+  .proj p { margin: 0; }
+  .proj .stack { margin-top: .9rem; font-family: var(--sans); font-size: .85rem; color: var(--ink-soft); }
+  .proj .stack span + span::before { content: " / "; color: var(--rule); }
+  .proj .tbc { margin-top: .9rem; font-style: italic; color: var(--ink-soft); }
+  .proj .tbc::before { content: ""; display: inline-block; width: 1.6rem; border-top: 1px solid var(--accent); vertical-align: middle; margin-right: .5rem; }
+
+  /* Grand article avec image */
+  .proj--lead { grid-column: 1 / span 8; }
+  .proj--lead h3 { font-size: clamp(2rem, 1.3rem + 3vw, 4.2rem); }
+  .proj--lead .body { display: grid; grid-template-columns: 1fr 1fr; gap: var(--col-gap); margin-top: 1rem; }
+  .proj figure { margin: 0; }
+  .proj figure img { width: 100%; border: 1px solid var(--ink); }
+  .proj figcaption { margin-top: .45rem; }
+
+  .proj--side { grid-column: 10 / span 3; align-self: start; }
+  .proj--side h3 { font-size: clamp(1.5rem, 1.2rem + 1vw, 2.1rem); }
+
+  .proj--second { grid-column: 4 / span 9; }
+  .proj--second .body { display: grid; grid-template-columns: 5fr 4fr; gap: var(--col-gap); align-items: start; margin-top: 1rem; }
+  .proj--second h3 { font-size: clamp(1.8rem, 1.3rem + 2.2vw, 3.4rem); }
+
+  .proj--note { grid-column: 1 / span 3; grid-row: span 1; }
+  .proj--note h3 { font-size: clamp(1.5rem, 1.2rem + 1vw, 2.1rem); }
+
+  .pull {
+    grid-column: 1 / -1;
+    margin: 0;
+    padding: clamp(1.5rem, 3vw, 2.5rem) 0;
+    border-top: 3px double var(--ink);
+    border-bottom: 1px solid var(--ink);
+    display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); column-gap: var(--col-gap);
+  }
+  .pull blockquote {
+    grid-column: 3 / span 9; margin: 0;
+    font-size: clamp(1.6rem, 1.1rem + 2.2vw, 3.2rem);
+    line-height: 1.12; font-style: italic; letter-spacing: -.01em;
+  }
+  .pull blockquote::before { content: "« "; color: var(--accent); }
+  .pull blockquote::after { content: " »"; color: var(--accent); }
+  .pull .label { grid-column: 3 / span 9; margin-top: 1rem; }
+
+  /* ---------- Compétences ---------- */
+  .skills { row-gap: 2rem; }
+  .skills-text {
+    grid-column: 3 / -1;
+    columns: 2; column-gap: var(--col-gap); column-rule: 1px solid var(--rule);
+  }
+  .skills-text p { margin: 0 0 1.1rem; break-inside: avoid; font-size: 1.12em; line-height: 1.4; }
+  .skills-text p .label { display: block; margin-bottom: .15rem; color: var(--accent); }
+  .skills-text p.minor { color: var(--ink-soft); }
+  .skills-aside {
+    grid-column: 3 / -1;
+    display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: var(--col-gap);
+    border-top: 1px solid var(--rule); padding-top: 1.2rem;
+    font-size: .98rem;
+  }
+  .skills-aside p { margin: .3rem 0 0; }
+
+  /* ---------- Contact ---------- */
+  .contact { row-gap: 2rem; }
+  .contact .big {
+    grid-column: 1 / -1;
+    margin: 0;
+    font-weight: 300;
+    font-size: clamp(1.7rem, .6rem + 5.4vw, 6.6rem);
+    line-height: 1;
+    letter-spacing: -.03em;
+    overflow-wrap: anywhere;
+    font-variation-settings: "opsz" 72;
+  }
+  .contact .big a { text-decoration: none; background-image: linear-gradient(var(--accent), var(--accent)); background-size: 100% 3px; background-repeat: no-repeat; background-position: 0 92%; }
+  .contact .big a:hover { color: var(--accent); }
+  .contact dl { grid-column: 3 / -1; margin: 0; display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 1.2rem var(--col-gap); }
+  .contact dt { margin-bottom: .25rem; }
+  .contact dd { margin: 0; font-size: 1.05rem; }
+  .contact dd a { text-decoration-color: var(--rule); text-underline-offset: .2em; }
+  .contact dd a:hover { color: var(--accent); text-decoration-color: var(--accent); }
+
+  .colophon {
+    margin-top: clamp(3rem, 6vw, 5rem);
+    border-top: 3px double var(--ink);
+    padding-top: .8rem;
+    display: flex; justify-content: space-between; flex-wrap: wrap; gap: .5rem 2rem;
+  }
+
+  /* ---------- Responsive ---------- */
+  @media (max-width: 1100px) {
+    .portrait { grid-column: 1 / span 4; }
+    .lede-wrap { grid-column: 5 / -1; }
+    .front-side { grid-column: 5 / -1; border-left: 0; padding-left: 0; border-top: 1px solid var(--rule); padding-top: 1rem; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: var(--col-gap); }
+    .front-side p { margin-bottom: 0; }
+    .xp-main { grid-column: 3 / -1; }
+    .xp-points { grid-column: 3 / -1; padding-top: .9rem; }
+    .proj--lead { grid-column: 1 / -1; }
+    .proj--side { grid-column: 1 / span 6; }
+    .proj--note { grid-column: 7 / -1; }
+    .proj--second { grid-column: 1 / -1; }
+    .contact dl { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  }
+
+  @media (max-width: 720px) {
+    .masthead nav { width: 100%; }
+    .grid > *, .section-head > *, .xp-item > *, .education > *, .pull > * { grid-column: 1 / -1 !important; }
+    .name .l2 { padding-left: 0; }
+    .portrait { max-width: 15rem; }
+    .front-side { grid-template-columns: 1fr; }
+    .section-head .folio { margin-bottom: .4rem; }
+    .xp-dates { display: flex; gap: 1rem; flex-wrap: wrap; padding-top: 0; margin-bottom: .5rem; }
+    .xp-dates .type { margin-top: 0; }
+    .education .label { margin-bottom: .3rem; }
+    .proj--lead .body, .proj--second .body { grid-template-columns: 1fr; }
+    .skills-text { columns: 1; }
+    .skills-aside { grid-template-columns: 1fr; gap: 1rem; }
+    .contact dl { grid-template-columns: 1fr; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after { transition: none !important; animation: none !important; }
+  }
+</style>
+</head>
+<body>
+<a class="skip" href="#contenu">Aller au contenu</a>
+
+<div class="page">
+  <header class="masthead">
+    <span class="label">Alexandre Magnier &nbsp;·&nbsp; Portfolio</span>
+    <nav aria-label="Sommaire">
+      <ul class="label">
+        <li><a href="#experiences"><span>01</span>Expériences</a></li>
+        <li><a href="#projets"><span>02</span>Projets</a></li>
+        <li><a href="#competences"><span>03</span>Compétences</a></li>
+        <li><a href="#contact"><span>04</span>Contact</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <main id="contenu">
+    <!-- La une -->
+    <section class="grid front" aria-labelledby="nom">
+      <div class="kicker label">
+        <span>Software Engineer</span>
+        <span class="accent">Hauts-de-France</span>
+      </div>
+
+      <h1 class="name" id="nom">
+        <span class="l1">Alexandre</span>
+        <span class="l2">Magnier</span>
+      </h1>
+
+      <hr class="front-rule">
+
+      <figure class="portrait">
+        <img src="../../src/assets/photo.png" alt="Portrait d'Alexandre Magnier" width="395" height="397">
+        <figcaption class="label">Alexandre Magnier</figcaption>
+      </figure>
+
+      <div class="lede-wrap">
+        <p class="lede">Diplômé Concepteur Développeur d'Applications, j'ai une expérience concrète en entreprise&#8239;: applications développées de bout en bout, refonte UX/UI, intégration d'IA et d'API. Je suis particulièrement à l'aise avec l'écosystème Node.js et je m'adapte à d'autres langages et technologies selon les besoins.</p>
+      </div>
+
+      <aside class="front-side" aria-label="En bref">
+        <div>
+          <span class="label">Mobilité</span>
+          <p>Lille, Douai, Lens et Arras · Permis B, véhiculé</p>
+        </div>
+        <div>
+          <span class="label">Écrire</span>
+          <p><a href="mailto:a.magnier.pro@gmail.com">a.magnier.pro<wbr>@gmail.com</a></p>
+        </div>
+        <div>
+          <span class="label">Document</span>
+          <p><a class="cv" href="../../public/cv-alexandre-magnier.pdf">Télécharger le CV</a></p>
+        </div>
+      </aside>
+    </section>
+
+    <!-- 01 Expériences -->
+    <section class="section" id="experiences" aria-labelledby="h-xp">
+      <header class="section-head">
+        <span class="folio label">§ 01</span>
+        <h2 id="h-xp">Expériences <em>en entreprise</em></h2>
+      </header>
+
+      <ol class="xp">
+        <li class="xp-item">
+          <div class="xp-dates">
+            <span class="label">09/2025 – 06/2026</span>
+            <span class="label type">Alternance</span>
+          </div>
+          <div class="xp-main">
+            <h3>Développeur web <i>chez</i> IESI</h3>
+            <p class="project">Développement d'une application de diffusion de contenus multimédias avec abonnement</p>
+          </div>
+          <ul class="xp-points">
+            <li>Conception et développement de bout en bout&#8239;: de l'architecture technique à la mise en production</li>
+            <li>Mise en place d'un système d'abonnement (gestion des utilisateurs, accès aux contenus)</li>
+            <li>Gestion autonome du cycle de vie du projet</li>
+          </ul>
+        </li>
+        <li class="xp-item">
+          <div class="xp-dates">
+            <span class="label">08/2025 – 09/2025</span>
+            <span class="label type">CDD</span>
+          </div>
+          <div class="xp-main">
+            <h3>Développeur front-end <i>chez</i> IESI</h3>
+            <p class="project">Refonte responsive &amp; optimisation UX/UI</p>
+          </div>
+          <ul class="xp-points">
+            <li>Refonte de sites existants avec une approche mobile-first (Tailwind)</li>
+            <li>Application de principes de clean code pour améliorer la maintenabilité</li>
+            <li>Optimisation de l'expérience utilisateur</li>
+          </ul>
+        </li>
+        <li class="xp-item">
+          <div class="xp-dates">
+            <span class="label">04/2025 – 06/2025</span>
+            <span class="label type">Stage</span>
+          </div>
+          <div class="xp-main">
+            <h3>Développeur web <i>chez</i> La Marmite Digitale</h3>
+            <p class="project">Développement d'une marketplace pour des unions commerciales</p>
+          </div>
+          <ul class="xp-points">
+            <li>Développement du front-end avec intégration d'API REST</li>
+            <li>Utilisation de l'IA pour assister les commerçants dans la création de leur vitrine en ligne</li>
+            <li>Refonte partielle du backend existant pour fluidifier le développement</li>
+          </ul>
+        </li>
+        <li class="xp-item">
+          <div class="xp-dates">
+            <span class="label">04/2024 – 06/2024</span>
+            <span class="label type">Stage</span>
+          </div>
+          <div class="xp-main">
+            <h3>Développeur web <i>chez</i> IESI</h3>
+            <p class="project">Écran de tickets clients en temps réel, puis sonde de supervision</p>
+          </div>
+          <ul class="xp-points">
+            <li>Développement d'une interface affichant des tickets clients en temps réel, connectée à une API REST et déployée via Docker</li>
+            <li>Conception d'une sonde de supervision collectant RAM et stockage des postes, avec API REST et interface de visualisation</li>
+          </ul>
+        </li>
+      </ol>
+
+      <div class="education">
+        <span class="label">Formation</span>
+        <p><strong>Bachelor Développeur web</strong>, MyDigitalSchool Lille, 09/2025 – 07/2026 · <strong>Bachelor Cycle Web et Multimédia</strong>, MyDigitalSchool Lille, 09/2023 – 06/2025.</p>
+      </div>
+    </section>
+
+    <!-- 02 Projets -->
+    <section class="section" id="projets" aria-labelledby="h-proj">
+      <header class="section-head">
+        <span class="folio label">§ 02</span>
+        <h2 id="h-proj">Projets <em>choisis</em></h2>
+      </header>
+
+      <div class="grid projects">
+        <article class="proj proj--lead">
+          <div class="meta label"><span class="n">N° 1</span><span>IESI · Stage 04/2024 – 06/2024</span></div>
+          <h3>Sonde de supervision</h3>
+          <div class="body">
+            <figure>
+              <img src="../../src/assets/projects/sonde/cover.png" alt="Interface de visualisation de la sonde de supervision" width="1185" height="629" loading="lazy">
+              <figcaption class="label">Interface de visualisation</figcaption>
+            </figure>
+            <div>
+              <p>Sonde qui relève la RAM et le stockage des postes, avec API REST et interface de visualisation. Exécutée toutes les minutes, elle envoie à chaque passage deux alertes à l'interface&#8239;: une pour la RAM, une pour le stockage.</p>
+              <p class="stack"><span>Python</span><span>Angular</span><span>NestJS</span><span>API REST</span></p>
+            </div>
+          </div>
+        </article>
+
+        <article class="proj proj--side">
+          <div class="meta label"><span class="n">N° 2</span><span>IESI · Alternance</span></div>
+          <h3>Application de diffusion de contenus multimédias</h3>
+          <p>Application de diffusion de contenus multimédias avec abonnement, développée en alternance chez IESI.</p>
+          <p class="tbc">Détails à venir</p>
+        </article>
+
+        <figure class="pull">
+          <blockquote>C'est sur ce projet que j'ai appris à manipuler une API pour faire communiquer les différentes parties d'une application web.</blockquote>
+          <figcaption class="label">À propos de l'écran atelier, IESI</figcaption>
+        </figure>
+
+        <article class="proj proj--note">
+          <div class="meta label"><span class="n">N° 3</span><span>La Marmite Digitale · Stage</span></div>
+          <h3>Marketplace pour unions commerciales</h3>
+          <p>Marketplace pour des unions commerciales, avec assistance par IA à la création des vitrines des commerçants.</p>
+          <p class="stack"><span>API REST</span><span>IA</span></p>
+          <p class="tbc">Détails à venir</p>
+        </article>
+
+        <article class="proj proj--second">
+          <div class="meta label"><span class="n">N° 4</span><span>IESI · Stage 04/2024 – 06/2024</span></div>
+          <h3>Écran atelier&#8239;: tickets clients en temps réel</h3>
+          <div class="body">
+            <figure>
+              <img src="../../src/assets/projects/tickets-iesi/cover.png" alt="Écran affichant les tickets clients en temps réel" width="763" height="418" loading="lazy">
+              <figcaption class="label">Écran atelier</figcaption>
+            </figure>
+            <div>
+              <p>Interface affichant en temps réel les tickets envoyés par les clients d'IESI via Apollo, la plateforme développée par IESI, connectée à une API REST et déployée via Docker.</p>
+              <p class="stack"><span>Angular</span><span>NestJS</span><span>API REST</span><span>Docker</span></p>
+            </div>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <!-- 03 Compétences -->
+    <section class="section" id="competences" aria-labelledby="h-skills">
+      <header class="section-head">
+        <span class="folio label">§ 03</span>
+        <h2 id="h-skills">Compétences</h2>
+      </header>
+
+      <div class="grid skills">
+        <div class="skills-text">
+          <p><span class="label">Frameworks</span>Angular, Tailwind CSS, NestJS.</p>
+          <p><span class="label">Langages</span>HTML/CSS, JavaScript, TypeScript, PHP, Python.</p>
+          <p><span class="label">Bases de données &amp; ORM</span>MySQL, PostgreSQL, Prisma, Drizzle.</p>
+          <p><span class="label">Tests</span>Jest, Playwright.</p>
+          <p><span class="label">DevOps &amp; Outils</span>Docker, Git, WordPress.</p>
+          <p class="minor"><span class="label">Notions</span>C#, Flutter, Svelte.</p>
+        </div>
+        <div class="skills-aside">
+          <div>
+            <span class="label">Qualités</span>
+            <p>Persévérant, méticuleux, organisé, réactif, curieux&#8239;; leadership.</p>
+          </div>
+          <div>
+            <span class="label">Langues</span>
+            <p>Français, langue natale. Anglais, A2.</p>
+          </div>
+          <div>
+            <span class="label">En dehors</span>
+            <p>Sport (football, musculation, course à pied), cinéma, musique, jeux vidéo.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 04 Contact -->
+    <section class="section" id="contact" aria-labelledby="h-contact">
+      <header class="section-head">
+        <span class="folio label">§ 04</span>
+        <h2 id="h-contact">Contact</h2>
+      </header>
+
+      <div class="grid contact">
+        <p class="big"><a href="mailto:a.magnier.pro@gmail.com">a.magnier.pro<wbr>@gmail.com</a></p>
+        <dl>
+          <div><dt class="label">Téléphone</dt><dd><a href="tel:+33699691514" class="num">06 99 69 15 14</a></dd></div>
+          <div><dt class="label">GitHub</dt><dd><a href="https://github.com/AlexandreMagnier04">AlexandreMagnier04</a></dd></div>
+          <div><dt class="label">LinkedIn</dt><dd><a href="https://www.linkedin.com/in/alexandre-magnier">alexandre-magnier</a></dd></div>
+          <div><dt class="label">CV</dt><dd><a href="../../public/cv-alexandre-magnier.pdf">cv-alexandre-magnier.pdf</a></dd></div>
+        </dl>
+      </div>
+    </section>
+  </main>
+
+  <footer class="colophon label">
+    <span>Alexandre Magnier — Software Engineer</span>
+    <span>Composé en Newsreader &amp; Schibsted Grotesk</span>
+  </footer>
+</div>
+</body>
+</html>

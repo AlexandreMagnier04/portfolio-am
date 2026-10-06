@@ -1,0 +1,56 @@
+[
+  {
+    "role": "Concepteur développeur d'applications",
+    "type": "Alternance",
+    "company": "IESI",
+    "place": "Mérignies (59710)",
+    "start": "09/2025",
+    "end": "06/2026",
+    "project": "Développement d'une application de diffusion de contenus multimédias avec abonnement",
+    "bullets": [
+      "Conception et développement de bout en bout : de l'architecture technique à la mise en production",
+      "Mise en place d'un système d'abonnement (gestion des utilisateurs, accès aux contenus)",
+      "Gestion autonome du cycle de vie du projet"
+    ]
+  },
+  {
+    "role": "Développeur front-end",
+    "type": "CDD",
+    "company": "IESI",
+    "place": "Mérignies (59710)",
+    "start": "08/2025",
+    "end": "09/2025",
+    "project": "Refonte responsive & optimisation UX/UI",
+    "bullets": [
+      "Refonte de sites existants avec une approche mobile-first (Tailwind)",
+      "Application de principes de clean code pour améliorer la maintenabilité",
+      "Optimisation de l'expérience utilisateur"
+    ]
+  },
+  {
+    "role": "Développeur web",
+    "type": "Stage",
+    "company": "La Marmite Digitale",
+    "place": "Ronchin",
+    "start": "04/2025",
+    "end": "06/2025",
+    "project": "Développement d'une marketplace pour des unions commerciales",
+    "bullets": [
+      "Développement du front-end avec intégration d'API REST",
+      "Utilisation de l'IA pour assister les commerçants dans la création de leur vitrine en ligne",
+      "Refonte partielle du backend existant pour fluidifier le développement"
+    ]
+  },
+  {
+    "role": "Développeur web",
+    "type": "Stage",
+    "company": "IESI",
+    "place": "Mérignies (59710)",
+    "start": "04/2024",
+    "end": "06/2024",
+    "bullets": [
+      "Développement d'une interface affichant des tickets clients en temps réel, connectée à une API REST et déployée via Docker",
+      "Conception d'une sonde de supervision collectant RAM et stockage des postes, avec API REST et interface de visualisation"
+    ]
+  }
+]

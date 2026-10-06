@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Accueil - Activités</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="script.js"></script>
+</head>
+
+<body>
+
+    <body id="content">
+        <header>
+            <img src="img/logo.png" alt="Airbnb Logo" id="logo" />
+            <div class="header-nav">
+                <a href="#">Publier mon logement</a>
+                <a href="#">Publier mon activité</a>
+            </div>
+
+            <div id="header-button">
+                <button id="theme-toggle" class="theme-toggle">Thème sombre</button>
+                <img src="img/explore.png" alt="Language Icon" class="icon" />
+                <img src="img/user.png" alt="User Icon" class="icon" />
+            </div>
+
+        </header>
+
+        <section class="nav-section">
+            <div class="nav-tabs">
+                <a href="index.html" class="nav-tab">Logements</a>
+                <a href="index-activités.html" class="nav-tab active">Activités</a>
+            </div>
+        </section>
+
+        <section class="search-section">
+            <div class="input-container">
+
+                <label for="text" class="input-label">Destination</label>
+                <input type="text" placeholder="Rechercher une destination" class="input-field"
+                    alt="Saisir la destination" />
+            </div>
+            <hr class="search-separator">
+
+            <div class="input-container">
+
+                <label for="date" class="input-label">Arrivée</label>
+                <input type="date" placeholder="Quand" class="input-field" alt="Saisir la date d'arrivée" />
+            </div>
+            <hr class="search-separator">
+
+            <div class="input-container">
+
+                <label for="date" class="input-label">Départ</label>
+                <input type="date" placeholder="Rechercher une destination" class="input-field" />
+            </div>
+            <hr class="search-separator">
+
+            <div class="input-container">
+
+                <label for="number" class="input-label">Voyageurs</label>
+                <input type="number" placeholder="Ajouter des voyageurs" class="input-field" />
+            </div>
+
+            <a href=""><img src="img/loupe.png" alt="Loupe de recherche" /></a>
+
+
+        </section>
+
+        <section class="categories-section">
+            <div class="category-item">
+                <img src="img/ski.png" alt="Ski" />
+                <p>Ski</p>
+                <div class="underline"></div>
+            </div>
+            <div class="category-item">
+                <img src="img/golf.png" alt="Golf" />
+                <p>Golf</p>
+                <div class="underline"></div>
+            </div>
+            <div class="category-item">
+                <img src="img/plages.png" alt="Plages" />
+                <p>Plages</p>
+                <div class="underline"></div>
+            </div>
+        </section>
+
+        <section id="golf" class="logement-section">
+            <h2>Golf</h2>
+            <div class="logements-grid">
+                <article class="logement-card">
+                    <img src="img/la-richardais.png" alt="Golf à La Richardais" />
+                    <div class="style-card">
+                        <div>
+                            <p>La Richardais, France<br />Près de: Golf de Dinard<br />18–23 nov. Hôte professionnel</p>
+                            <p><strong>631€ par nuit</strong></p>
+                        </div>
+                        <div class="logement-rating">★ 4.82</div>
+                    </div>
+                </article>
+
+                <article class="logement-card">
+                    <img src="img/lancieux.png" alt="Golf à Lancieux" />
+                    <div class="style-card">
+                        <div>
+                            <p>Près de: Golf de Dinard<br />13–18 avr.Hôte professionnel</p>
+                            <p><strong>717€ par nuit</strong></p>
+
+                        </div>
+                        <div class="logement-rating">★ 4.83</div>
+                </article>
+
+            </div>
+
+
+
+
+
+            <footer>
+                <div class="footer-container">
+                    <div class="footer-section">
+                        <h4>Assistance</h4>
+                        <ul>
+                            <li><a href="#">Centre d'aide</a></li>
+                            <li><a href="#">AirCover</a></li>
+                            <li><a href="#">Assistance handicap</a></li>
+                            <li><a href="#">Options d'annulation</a></li>
+                            <li><a href="#">J'ai un problème de voisinage</a></li>
+                        </ul>
+                    </div>
+                    <div class="footer-section">
+                        <h4>Accueil de voyageurs</h4>
+                        <ul>
+                            <li><a href="#">Mettez votre logement sur Airbnb</a></li>
+                            <li><a href="#">AirCover pour les hôtes</a></li>
+                            <li><a href="#">Ressources pour les hôtes</a></li>
+                            <li><a href="#">Forum de la communauté</a></li>
+                            <li><a href="#">Hébergement responsable</a></li>
+                            <li>
+                                <a href="#">Participez à un cours gratuit sur l'accueil de voyageurs</a>
+                            </li>
+                            <li><a href="#">Trouver un co-hôte</a></li>
+                        </ul>
+                    </div>
+                    <div class="footer-section">
+                        <h4>Airbnb</h4>
+                        <ul>
+                            <li><a href="#">Newsroom</a></li>
+                            <li><a href="#">Nouvelles fonctionnalités</a></li>
+                            <li><a href="#">Carrières</a></li>
+                            <li><a href="#">Investisseurs</a></li>
+                            <li><a href="#">Cartes cadeaux</a></li>
+                            <li><a href="#">Séjours d'urgence Airbnb.org</a></li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="footer-bottom">
+                    <p>© 2024 Airbnb, Inc.</p>
+                    <ul class="footer-links">
+                        <li><a href="#">Confidentialité</a></li>
+                        <li><a href="#">Conditions générales</a></li>
+                        <li><a href="#">Plan du site</a></li>
+                        <li><a href="#">Fonctionnement du site</a></li>
+                        <li><a href="#">Infos sur l'entreprise</a></li>
+                    </ul>
+                    <div class="footer-icons">
+                        <span>€ EUR</span>
+                        <span>Français (FR)</span>
+                        <a href="https://www.instagram.com/airbnbmds/"><img src="img/insta.png" alt="Instagram" /></a>
+                        <a href="https://www.tiktok.com/@airbnbmds"><img src="img/tiktok.png" alt="tiktok" /></a>
+                        <a href="https://www.facebook.com/airbnbmds/"><img src="img/facebook.png" alt="Facebook" /></a>
+                    </div>
+                </div>
+            </footer>
+
+    </body>
+
+</body>
+
+</html>

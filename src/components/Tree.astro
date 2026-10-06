@@ -1,0 +1,48 @@
+---
+interface Item {
+  href: string;
+  label: string;
+  /** id de la section suivie par le marqueur (absent pour les sous-éléments) */
+  target?: string;
+  sub?: boolean;
+}
+interface Props {
+  root: string;
+  items: Item[];
+  foot?: { href: string; label: string };
+}
+const { root, items, foot } = Astro.props;
+
+const topIndexes = items.flatMap((it, i) => (it.sub ? [] : [i]));
+const lastTop = topIndexes[topIndexes.length - 1];
+
+const glyphs = items.map((it, i) => {
+  if (!it.sub) return i === lastTop ? '└── ' : '├── ';
+  const parent = topIndexes.filter((t) => t < i).pop();
+  const isLastSub = !items[i + 1]?.sub;
+  return (parent === lastTop ? '    ' : '│   ') + (isLastSub ? '└── ' : '├── ');
+});
+---
+<aside class="tree" aria-label="Plan du site">
+  <div>
+    <p class="tree__root">{root}</p>
+    <nav aria-label="Sections">
+      <ul class="tree__list" id="tree">
+        {items.map((it, i) => (
+          <li class:list={[it.sub && 'tree__sub']}>
+            <a href={it.href} data-target={it.target} data-label={it.label}>
+              <span class="tree__glyph" aria-hidden="true">{glyphs[i]}</span>{it.label}
+            </a>
+          </li>
+        ))}
+      </ul>
+      <span class="tree__marker" id="marker" aria-hidden="true"></span>
+    </nav>
+  </div>
+  {foot && (
+    <p class="tree__foot">
+      <a href={foot.href}>{foot.label}</a><br />
+      <span>PDF · à télécharger</span>
+    </p>
+  )}
+</aside>

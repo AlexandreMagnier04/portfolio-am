@@ -1,0 +1,29 @@
+---
+import { Image } from 'astro:assets';
+import photo from '../assets/photo.png';
+import { profile } from '../lib/content';
+
+const [first, ...rest] = profile.name.split(' ');
+---
+<section id="presentation" class="g hero" aria-labelledby="t-name">
+  <h1 class="hero__name" id="t-name"><span>{first}</span>{" "}<span>{rest.join(" ")}</span></h1>
+
+  <figure class="hero__fig">
+    <Image src={photo} alt={`Portrait d'${profile.name}`} width={400} height={400} loading="eager" />
+    <figcaption>photo.png</figcaption>
+  </figure>
+
+  <div class="hero__who">
+    <p class="prompt mute" style="margin:0">whoami</p>
+    <p class="hero__role">{profile.title}</p>
+    <p class="hero__seek">{profile.seeking}</p>
+    <p class="hero__tag">{profile.tagline}</p>
+  </div>
+
+  <div class="hero__meta">
+    <p><span class="comment">âge</span><br />{profile.age}</p>
+    <p><span class="comment">mobilité</span><br />{profile.mobility}</p>
+    <p><span class="comment">joindre</span><br /><a href={`mailto:${profile.email}`}>{profile.email}</a></p>
+    <p style="margin:0"><span class="comment">cv</span><br /><a href={profile.cv}>cv-alexandre-magnier.pdf</a></p>
+  </div>
+</section>

@@ -1,0 +1,117 @@
+---
+import { render } from 'astro:content';
+import Shell from '../../layouts/Shell.astro';
+import ImageSlot from '../../components/ImageSlot.astro';
+import TechGrid from '../../components/TechGrid.astro';
+import { getProjects, profile } from '../../lib/content';
+
+export async function getStaticPaths() {
+  const projects = await getProjects();
+  return projects.map((project, i) => ({
+    params: { slug: project.id },
+    props: { project, prev: projects[i - 1], next: projects[i + 1] },
+  }));
+}
+
+const { project, prev, next } = Astro.props;
+const { id, data } = project;
+const { Content } = await render(project);
+const alt = data.coverAlt ?? `Capture du projet ${data.title}`;
+const shots = data.screenshots;
+// nombre d'images impair (1, 3, 5) : la première occupe toute la largeur, les autres vont par deux
+const leadShot = (1 + shots.length) % 2 === 1;
+// le cadre « Type · Lieu · dates » : chaque partie reste insécable (les dates ne se coupent pas)
+const frameParts = data.frame?.split(' · ') ?? [];
+
+const treeItems = [
+  { href: '/', label: '../ accueil' },
+  { href: '#readme', label: 'README.md', target: 'readme' },
+  { href: '#captures', label: 'captures/', target: 'captures' },
+  { href: '#stack', label: 'stack/', target: 'stack' },
+];
+const cmdNav = [{ href: '/#projets', label: '← projets/' }];
+---
+<Shell
+  title={`${data.title} — Alexandre Magnier`}
+  description={data.summary}
+  treeItems={treeItems}
+  cmdNav={cmdNav}
+  foot={{ href: profile.cv, label: 'cv-alexandre-magnier.pdf' }}
+  here="README.md"
+>
+  <section id="readme" class="g hero" aria-labelledby="t-project">
+    <header class="sec__head">
+      <p class="sec__cmd prompt">cat projets/{id}/README.md</p>
+      <h1 class="sec__title" id="t-project">{data.title}</h1>
+    </header>
+
+    <p class="readme__lead">{data.summary}</p>
+    {data.frame && (
+      <aside class="readme__meta" aria-label="Informations">
+        <dl class="p__kv"><dt>cadre</dt><dd>{frameParts.map((part, i) => (<>{i > 0 && ' · '}<span class="nowrap">{part}</span></>))}</dd></dl>
+      </aside>
+    )}
+    {(data.links.live || data.links.repo) && (
+      <p class="readme__actions">
+        {data.links.live && <a class="action action--main" href={data.links.live} target="_blank" rel="noopener noreferrer">voir le projet en ligne ↗</a>}
+        {data.links.repo && <a class="action" href={data.links.repo} target="_blank" rel="noopener noreferrer">voir le code sur GitHub ↗</a>}
+      </p>
+    )}
+  </section>
+
+  <section id="captures" class="g shots" aria-labelledby="t-shots">
+    <h2 id="t-shots" class="sr-only">Captures du projet</h2>
+    <div class:list={['gallery', leadShot && 'gallery--lead']}>
+      <ImageSlot src={data.cover} alt={alt} slug={id} caption={data.coverCaption} zoomable />
+      {shots.map((shot, i) => (
+        <ImageSlot
+          src={shot}
+          alt={data.screenshotAlts[i] ?? `${alt} (${i + 2})`}
+          slug={id}
+          file={`capture-${i + 2}`}
+          caption={data.screenshotCaptions[i]}
+          zoomable
+        />
+      ))}
+    </div>
+  </section>
+
+  <section id="apropos" class="g about" aria-label="Présentation du projet">
+    <div class="md">
+      <Content />
+    </div>
+  </section>
+
+  <section id="stack" class="g sec" aria-labelledby="t-stack">
+    <header class="sec__head">
+      <p class="sec__cmd prompt">ls projets/{id}/stack/</p>
+      <h2 class="sec__title" id="t-stack">stack<span class="slash">/</span></h2>
+    </header>
+    <TechGrid stack={data.stack} />
+  </section>
+
+  <dialog id="lightbox" class="lightbox" aria-label="Image agrandie">
+    <img alt="" />
+    <p class="lightbox__cap"></p>
+    <div class="lightbox__bar">
+      <button type="button" data-prev>← précédente</button>
+      <button type="button" data-next>suivante →</button>
+      <button type="button" data-close autofocus>fermer [esc]</button>
+    </div>
+  </dialog>
+  <script>
+    import '../../scripts/lightbox.ts';
+  </script>
+
+  <section class="g sec" aria-label="Projets voisins">
+    <nav class="pager">
+      {prev ? (
+        <a class="pager__prev" href={`/projets/${prev.id}/`}><span class="pager__label">← précédent</span><span class="pager__id">{prev.id}</span></a>
+      ) : <span></span>}
+      <a class="pager__up" href="/#projets">projets/</a>
+      {next ? (
+        <a class="pager__next" href={`/projets/${next.id}/`}><span class="pager__label">suivant →</span><span class="pager__id">{next.id}</span></a>
+      ) : <span></span>}
+    </nav>
+  </section>
+</Shell>

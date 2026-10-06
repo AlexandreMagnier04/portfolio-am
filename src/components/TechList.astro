@@ -1,0 +1,7 @@
+---
+import { displayStack } from '../lib/content';
+
+interface Props { stack: string[] }
+const items = displayStack(Astro.props.stack);
+---
+{items.length > 0 ? items.join(' / ') : <span class="pending">à renseigner</span>}

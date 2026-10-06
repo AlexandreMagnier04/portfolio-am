@@ -1,0 +1,607 @@
+<!doctype html>
+<!--
+  Direction « terminal » — Une seule famille, Martian Mono, dont l'axe de largeur (75 → 112,5) fait tout le travail
+  de hiérarchie (nom large et gras, texte courant étroit et léger) ; palette papier/encre d'un terminal en thème clair
+  — fond #F3F0E8, encre #1A1A17, gris #5C5A52, filets #D6D1C4 — et un seul accent, un vermillon #B23C1A (≈ 5:1 sur le fond),
+  réservé au prompt « $ », à l'élément actif et aux liens survolés.
+-->
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Alexandre Magnier — Software Engineer</title>
+<meta name="description" content="Portfolio d'Alexandre Magnier, Software Engineer : expériences, projets, compétences et contact.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Martian+Mono:wdth,wght@75..112.5,100..800&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --paper: #F3F0E8;
+    --ink: #1A1A17;
+    --mute: #5C5A52;
+    --rule: #D6D1C4;
+    --accent: #B23C1A;
+
+    --mono: "Martian Mono", ui-monospace, "SFMono-Regular", Menlo, Consolas, monospace;
+    --side: 17rem;
+    --gut: clamp(1rem, 3.5vw, 3rem);
+    --step--1: 0.78rem;
+    --step-0: 0.9rem;
+    --step-1: 1.05rem;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; }
+  html { -webkit-text-size-adjust: 100%; }
+  @media (prefers-reduced-motion: no-preference) {
+    html { scroll-behavior: smooth; }
+  }
+  body {
+    margin: 0;
+    background: var(--paper);
+    color: var(--ink);
+    font-family: var(--mono);
+    font-size: var(--step-0);
+    font-variation-settings: "wdth" 87.5;
+    font-weight: 360;
+    line-height: 1.7;
+    text-rendering: optimizeLegibility;
+  }
+  img { display: block; max-width: 100%; height: auto; }
+  a { color: inherit; text-decoration-thickness: 1px; text-underline-offset: 0.25em; }
+  a:hover { color: var(--accent); }
+  :focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
+  ::selection { background: var(--ink); color: var(--paper); }
+
+  .skip {
+    position: absolute; left: 1rem; top: -4rem; z-index: 10;
+    background: var(--ink); color: var(--paper); padding: .5rem .8rem; text-decoration: none;
+  }
+  .skip:focus { top: 1rem; color: var(--paper); }
+
+  /* utilitaires de ton */
+  .mute { color: var(--mute); }
+  .prompt::before { content: "$ "; color: var(--accent); font-weight: 600; }
+  .comment { color: var(--mute); }
+  .comment::before { content: "# "; }
+
+  /* ---------- squelette : arborescence à gauche, document à droite ---------- */
+  .shell {
+    display: grid;
+    grid-template-columns: var(--side) minmax(0, 1fr);
+    max-width: 1440px;
+    margin: 0 auto;
+    min-height: 100vh;
+  }
+
+  .tree {
+    position: sticky; top: 0;
+    height: 100vh;
+    border-right: 1px solid var(--rule);
+    padding: 2rem 1.25rem 4rem 1.5rem;
+    font-size: var(--step--1);
+    font-variation-settings: "wdth" 75;
+    display: flex; flex-direction: column; justify-content: space-between;
+  }
+  .tree__root { font-weight: 600; margin: 0 0 .9rem; letter-spacing: -.01em; }
+  .tree nav { position: relative; }
+  .tree__list { list-style: none; margin: 0; padding: 0; }
+  .tree__list li { position: relative; white-space: nowrap; }
+  .tree__list a {
+    display: block; text-decoration: none; padding: .12rem 0 .12rem .2rem;
+    color: var(--mute);
+  }
+  .tree__list a:hover { color: var(--ink); }
+  .tree__list a[aria-current="true"] { color: var(--ink); font-weight: 600; }
+  .tree__glyph { color: #A8A396; }
+  .tree__sub a { padding-left: 0; }
+  .tree__marker {
+    position: absolute; left: -1.5rem; top: 0;
+    width: 3px; height: 1.6em; background: var(--accent);
+    transform: translateY(var(--y, 0)); opacity: 0;
+  }
+  .tree__marker.is-on { opacity: 1; }
+  @media (prefers-reduced-motion: no-preference) {
+    .tree__marker { transition: transform .28s cubic-bezier(.2,.7,.2,1), height .28s, opacity .2s; }
+  }
+  .tree__foot { color: var(--mute); line-height: 1.6; }
+  .tree__foot a { color: var(--ink); }
+
+  main { min-width: 0; padding: 0 var(--gut) 6rem; }
+
+  /* barre de commande en tête */
+  .cmdbar {
+    display: flex; flex-wrap: wrap; gap: .25rem 1.75rem; align-items: baseline;
+    padding: 2rem 0 1.25rem; border-bottom: 1px solid var(--rule);
+    font-size: var(--step--1); font-variation-settings: "wdth" 75;
+  }
+  .cmdbar__path { font-weight: 600; margin-right: auto; }
+  .cmdbar__path span { color: var(--accent); }
+  .cmdbar nav { display: none; }
+  .cmdbar nav ul { list-style: none; display: flex; flex-wrap: wrap; gap: .1rem 1.25rem; margin: 0; padding: 0; }
+
+  /* grille interne asymétrique */
+  .g {
+    display: grid;
+    grid-template-columns: repeat(12, minmax(0, 1fr));
+    column-gap: clamp(1rem, 2.5vw, 2.5rem);
+  }
+
+  section { scroll-margin-top: 1.5rem; }
+  .sec { padding-top: clamp(4rem, 9vw, 7.5rem); }
+  .sec__head { grid-column: 1 / -1; margin-bottom: clamp(1.75rem, 4vw, 3rem); }
+  .sec__cmd { font-size: var(--step--1); color: var(--mute); margin: 0 0 .4rem; font-variation-settings: "wdth" 75; }
+  .sec__title {
+    margin: 0;
+    font-size: clamp(1.6rem, 4.2vw, 3.1rem);
+    line-height: 1.05;
+    font-weight: 700;
+    font-variation-settings: "wdth" 100;
+    letter-spacing: -.035em;
+  }
+  .sec__title .slash { color: var(--mute); font-weight: 300; }
+
+  /* ---------- présentation ---------- */
+  .hero { padding-top: clamp(2.5rem, 7vw, 5.5rem); row-gap: 2rem; }
+  .hero__name {
+    grid-column: 1 / 10;
+    margin: 0;
+    font-size: clamp(2.5rem, 7.4vw, 8rem);
+    line-height: .9;
+    font-weight: 760;
+    font-variation-settings: "wdth" 112.5;
+    letter-spacing: -.055em;
+  }
+  .hero__name span { display: block; }
+  .hero__name span:last-child { padding-left: 1.1em; }
+  .hero__fig {
+    grid-column: 10 / 13; align-self: end; margin: 0;
+    font-size: var(--step--1); font-variation-settings: "wdth" 75; color: var(--mute);
+  }
+  .hero__fig img { width: 100%; max-width: 13rem; aspect-ratio: 1; object-fit: cover; }
+  .hero__fig figcaption { margin-top: .5rem; }
+
+  .hero__who { grid-column: 1 / 8; margin-top: 1rem; }
+  .hero__role {
+    margin: .3rem 0 1.4rem; font-size: clamp(1.15rem, 2.2vw, 1.6rem);
+    font-weight: 600; font-variation-settings: "wdth" 100; letter-spacing: -.02em;
+  }
+  .hero__tag { margin: 0; max-width: 62ch; font-size: var(--step-1); }
+  .hero__meta {
+    grid-column: 9 / 13; margin: 1rem 0 0; align-self: end;
+    font-size: var(--step--1); font-variation-settings: "wdth" 75;
+    border-left: 1px solid var(--rule); padding-left: 1rem;
+  }
+  .hero__meta p { margin: 0 0 .9rem; }
+  .hero__meta a { color: var(--ink); }
+
+  /* ---------- expériences : un journal ---------- */
+  .log { grid-column: 1 / -1; list-style: none; margin: 0; padding: 0; border-top: 1px solid var(--ink); }
+  .log__row {
+    display: grid; grid-template-columns: 15ch minmax(0, 1fr) minmax(0, 15rem);
+    column-gap: clamp(1rem, 3vw, 3rem);
+    padding: 1.6rem 0 1.8rem; border-bottom: 1px solid var(--rule);
+  }
+  .log__date { font-size: var(--step--1); font-variation-settings: "wdth" 75; color: var(--mute); padding-top: .25rem; }
+  .log__date b { display: block; color: var(--ink); font-weight: 600; }
+  .log__role { margin: 0; font-size: var(--step-1); font-weight: 650; font-variation-settings: "wdth" 100; letter-spacing: -.015em; }
+  .log__project { margin: .2rem 0 .8rem; }
+  .log ul { margin: 0; padding: 0; list-style: none; }
+  .log ul li { padding-left: 2ch; text-indent: -2ch; color: var(--mute); }
+  .log ul li::before { content: "- "; }
+  .log__where { font-size: var(--step--1); font-variation-settings: "wdth" 75; text-align: right; padding-top: .25rem; }
+  .log__where b { display: block; font-weight: 600; }
+
+  /* ---------- projets : rythme irrégulier ---------- */
+  .proj { row-gap: clamp(3rem, 7vw, 5.5rem); }
+  .p__path { font-size: var(--step--1); font-variation-settings: "wdth" 75; color: var(--mute); margin: 0 0 .5rem; }
+  .p__title {
+    margin: 0 0 .7rem; font-size: clamp(1.15rem, 2vw, 1.55rem); line-height: 1.2;
+    font-weight: 680; font-variation-settings: "wdth" 100; letter-spacing: -.025em;
+  }
+  .p__sum { margin: 0 0 1rem; max-width: 52ch; }
+  .p__kv { margin: 0; display: grid; grid-template-columns: 8ch minmax(0, 1fr); gap: .1rem 1ch; font-size: var(--step--1); font-variation-settings: "wdth" 75; }
+  .p__kv dt { color: var(--mute); }
+  .p__kv dd { margin: 0; }
+  .pending { color: var(--accent); }
+  .p__shot { margin: 0; border: 1px solid var(--ink); background: #fff; }
+  .p__shot img { width: 100%; }
+  .p__shot figcaption {
+    border-top: 1px solid var(--ink); padding: .35rem .7rem;
+    font-size: var(--step--1); font-variation-settings: "wdth" 75; color: var(--mute);
+    display: flex; justify-content: space-between; gap: 1rem;
+  }
+
+  .p--a { grid-column: 1 / 7; border-top: 1px solid var(--ink); padding-top: 1.2rem; }
+  .p--b { grid-column: 8 / 13; border-top: 1px solid var(--ink); padding-top: 1.2rem; margin-top: 4rem; }
+  .p--c-shot { grid-column: 1 / 9; }
+  .p--c-text { grid-column: 9 / 13; align-self: end; }
+  .p--d-text { grid-column: 1 / 5; align-self: start; padding-top: 2rem; }
+  .p--d-shot { grid-column: 5 / 12; }
+  .proj__more { grid-column: 1 / -1; margin: 0; font-size: var(--step--1); font-variation-settings: "wdth" 75; }
+
+  /* ---------- compétences : un fichier ouvert ---------- */
+  .file { grid-column: 1 / 9; border: 1px solid var(--ink); }
+  .file__tab {
+    display: flex; justify-content: space-between; gap: 1rem;
+    border-bottom: 1px solid var(--ink); padding: .4rem .8rem;
+    font-size: var(--step--1); font-variation-settings: "wdth" 75;
+  }
+  .file__tab b { font-weight: 600; }
+  .code { margin: 0; padding: .9rem 0; list-style: none; counter-reset: ln; overflow-x: auto; }
+  .code li {
+    counter-increment: ln;
+    display: grid; grid-template-columns: 4ch minmax(0, 1fr); column-gap: 1.5ch;
+    padding-right: 1rem; line-height: 1.85;
+  }
+  .code li::before { content: counter(ln); text-align: right; color: #6E6A61; font-size: var(--step--1); padding-top: .1em; }
+  .code .k { font-weight: 600; }
+
+  .aside { grid-column: 10 / 13; font-size: var(--step--1); font-variation-settings: "wdth" 75; }
+  .aside h3 { margin: 0 0 .5rem; font-size: var(--step--1); font-weight: 600; }
+  .aside ul { list-style: none; margin: 0 0 2rem; padding: 0; }
+  .aside li { border-bottom: 1px solid var(--rule); padding: .35rem 0; display: flex; justify-content: space-between; gap: 1rem; }
+
+  /* ---------- contact ---------- */
+  .mail {
+    grid-column: 1 / -1; display: inline-block; justify-self: start;
+    font-size: clamp(1.05rem, 5.4vw, 4.6rem); line-height: 1.05;
+    font-weight: 700; font-variation-settings: "wdth" 85; letter-spacing: -.045em;
+    text-decoration: none; border-bottom: 2px solid var(--ink); padding-bottom: .1em;
+    overflow-wrap: anywhere;
+  }
+  .mail:hover { border-color: var(--accent); }
+  .reach { grid-column: 1 / 9; margin: 2.5rem 0 0; display: grid; grid-template-columns: 11ch minmax(0, 1fr); border-top: 1px solid var(--rule); }
+  .reach dt, .reach dd { padding: .7rem 0; border-bottom: 1px solid var(--rule); margin: 0; }
+  .reach dt { color: var(--mute); font-size: var(--step--1); font-variation-settings: "wdth" 75; padding-top: .85rem; }
+  .reach dd { overflow-wrap: anywhere; }
+  .eof { grid-column: 1 / -1; margin: 5rem 0 0; font-size: var(--step--1); color: var(--mute); font-variation-settings: "wdth" 75; }
+
+  /* ligne d'état (bureau uniquement) */
+  .status {
+    position: fixed; left: 0; right: 0; bottom: 0; z-index: 5;
+    background: var(--ink); color: var(--paper);
+    font-size: .72rem; font-variation-settings: "wdth" 75;
+    display: flex; justify-content: space-between; gap: 1rem;
+    padding: .3rem 1.5rem;
+  }
+  .status__path span { color: #E58A6B; } /* accent éclairci pour rester AA sur fond encre */
+
+  /* ---------- responsive ---------- */
+  @media (max-width: 1100px) {
+    .hero__name { grid-column: 1 / -1; }
+    .hero__fig { grid-column: 1 / 5; grid-row: 1; justify-self: start; }
+    .hero__fig img { max-width: 8rem; }
+    .hero__who { grid-column: 1 / 9; }
+    .hero__meta { grid-column: 9 / 13; }
+    .log__row { grid-template-columns: 13ch minmax(0, 1fr); }
+    .log__where { grid-column: 2; text-align: left; order: -1; padding: 0 0 .4rem; }
+    .log__where b { display: inline; margin-right: 1ch; }
+    .file { grid-column: 1 / -1; }
+    .aside { grid-column: 1 / -1; margin-top: 2.5rem; display: grid; grid-template-columns: 1fr 1fr; column-gap: 2rem; }
+  }
+  @media (max-width: 900px) {
+    .shell { grid-template-columns: minmax(0, 1fr); }
+    .tree, .status { display: none; }
+    .cmdbar nav { display: block; width: 100%; }
+    main { padding-bottom: 3rem; }
+    .hero__who, .hero__meta { grid-column: 1 / -1; }
+    .hero__meta { border-left: 0; padding-left: 0; border-top: 1px solid var(--rule); padding-top: 1rem; }
+    .p--a, .p--b, .p--c-shot, .p--c-text, .p--d-text, .p--d-shot { grid-column: 1 / -1; margin-top: 0; }
+    .p--c-text { order: 0; }
+    .p--d-text { padding-top: 0; }
+    .p--d-shot { order: 1; }
+    .reach { grid-column: 1 / -1; }
+  }
+  @media (max-width: 560px) {
+    .log__row { grid-template-columns: minmax(0, 1fr); }
+    .log__date { display: flex; gap: 1ch; }
+    .log__date b { display: inline; }
+    .log__where { grid-column: 1; order: 0; padding-top: .3rem; }
+    .aside { grid-template-columns: 1fr; }
+    .reach { grid-template-columns: minmax(0, 1fr); }
+    .reach dt { border-bottom: 0; padding-bottom: 0; }
+    .p__kv { grid-template-columns: minmax(0, 1fr); }
+    .p__kv dd { margin-bottom: .4rem; }
+  }
+</style>
+</head>
+<body>
+<a class="skip" href="#contenu">Aller au contenu</a>
+
+<div class="shell">
+
+  <!-- Arborescence : sert de navigation, suit la lecture -->
+  <aside class="tree" aria-label="Plan du site">
+    <div>
+      <p class="tree__root">~/alexandre-magnier/</p>
+      <nav aria-label="Sections">
+        <ul class="tree__list" id="tree">
+          <li><a href="#presentation" data-target="presentation"><span class="tree__glyph" aria-hidden="true">├── </span>README.md</a></li>
+          <li><a href="#experiences" data-target="experiences"><span class="tree__glyph" aria-hidden="true">├── </span>experiences/</a></li>
+          <li><a href="#projets" data-target="projets"><span class="tree__glyph" aria-hidden="true">├── </span>projets/</a></li>
+          <li class="tree__sub"><a href="#p-diffusion"><span class="tree__glyph" aria-hidden="true">│   ├── </span>diffusion-contenus</a></li>
+          <li class="tree__sub"><a href="#p-marketplace"><span class="tree__glyph" aria-hidden="true">│   ├── </span>marketplace</a></li>
+          <li class="tree__sub"><a href="#p-sonde"><span class="tree__glyph" aria-hidden="true">│   ├── </span>sonde</a></li>
+          <li class="tree__sub"><a href="#p-tickets"><span class="tree__glyph" aria-hidden="true">│   └── </span>tickets</a></li>
+          <li><a href="#competences" data-target="competences"><span class="tree__glyph" aria-hidden="true">├── </span>competences.yml</a></li>
+          <li><a href="#contact" data-target="contact"><span class="tree__glyph" aria-hidden="true">└── </span>contact</a></li>
+        </ul>
+        <span class="tree__marker" id="marker" aria-hidden="true"></span>
+      </nav>
+    </div>
+    <p class="tree__foot">
+      <a href="../../public/cv-alexandre-magnier.pdf">cv-alexandre-magnier.pdf</a><br>
+      <span>PDF · à télécharger</span>
+    </p>
+  </aside>
+
+  <main id="contenu">
+
+    <div class="cmdbar">
+      <p class="cmdbar__path" style="margin-top:0;margin-bottom:0">alexandre-magnier<span>:</span>~</p>
+      <nav aria-label="Sections (mobile)">
+        <ul>
+          <li><a href="#experiences">experiences/</a></li>
+          <li><a href="#projets">projets/</a></li>
+          <li><a href="#competences">competences.yml</a></li>
+          <li><a href="#contact">contact</a></li>
+        </ul>
+      </nav>
+    </div>
+
+    <!-- ================= Présentation ================= -->
+    <section id="presentation" class="g hero" aria-labelledby="t-name">
+      <h1 class="hero__name" id="t-name"><span>Alexandre</span><span>Magnier</span></h1>
+
+      <figure class="hero__fig">
+        <img src="../../src/assets/photo.png" alt="Portrait d'Alexandre Magnier" width="400" height="400">
+        <figcaption>photo.png</figcaption>
+      </figure>
+
+      <div class="hero__who">
+        <p class="prompt mute" style="margin:0">whoami</p>
+        <p class="hero__role">Software Engineer</p>
+        <p class="hero__tag">Diplômé Concepteur Développeur d'Applications, j'ai une expérience concrète en entreprise&nbsp;: applications développées de bout en bout, refonte UX/UI, intégration d'IA et d'API. Je suis particulièrement à l'aise avec l'écosystème Node.js et je m'adapte à d'autres langages et technologies selon les besoins.</p>
+      </div>
+
+      <div class="hero__meta">
+        <p><span class="comment">mobilité</span><br>Mobile sur Lille, Douai, Lens et Arras · Permis B, véhiculé</p>
+        <p><span class="comment">joindre</span><br><a href="mailto:a.magnier.pro@gmail.com">a.magnier.pro@gmail.com</a></p>
+        <p style="margin:0"><span class="comment">cv</span><br><a href="../../public/cv-alexandre-magnier.pdf">cv-alexandre-magnier.pdf</a></p>
+      </div>
+    </section>
+
+    <!-- ================= Expériences ================= -->
+    <section id="experiences" class="g sec" aria-labelledby="t-exp">
+      <header class="sec__head">
+        <p class="sec__cmd prompt">ls -lt experiences/</p>
+        <h2 class="sec__title" id="t-exp">experiences<span class="slash">/</span></h2>
+      </header>
+
+      <ol class="log" reversed>
+        <li class="log__row">
+          <p class="log__date" style="margin:0"><b>09/2025</b>→ 06/2026</p>
+          <div>
+            <h3 class="log__role">Développeur web</h3>
+            <p class="log__project">Développement d'une application de diffusion de contenus multimédias avec abonnement</p>
+            <ul>
+              <li>Conception et développement de bout en bout&nbsp;: de l'architecture technique à la mise en production</li>
+              <li>Mise en place d'un système d'abonnement (gestion des utilisateurs, accès aux contenus)</li>
+              <li>Gestion autonome du cycle de vie du projet</li>
+            </ul>
+          </div>
+          <p class="log__where" style="margin:0"><b>IESI</b><span class="mute">alternance · Mérignies</span></p>
+        </li>
+        <li class="log__row">
+          <p class="log__date" style="margin:0"><b>08/2025</b>→ 09/2025</p>
+          <div>
+            <h3 class="log__role">Développeur front-end</h3>
+            <p class="log__project">Refonte responsive &amp; optimisation UX/UI</p>
+            <ul>
+              <li>Refonte de sites existants avec une approche mobile-first (Tailwind)</li>
+              <li>Application de principes de clean code pour améliorer la maintenabilité</li>
+              <li>Optimisation de l'expérience utilisateur</li>
+            </ul>
+          </div>
+          <p class="log__where" style="margin:0"><b>IESI</b><span class="mute">CDD · Mérignies</span></p>
+        </li>
+        <li class="log__row">
+          <p class="log__date" style="margin:0"><b>04/2025</b>→ 06/2025</p>
+          <div>
+            <h3 class="log__role">Développeur web</h3>
+            <p class="log__project">Développement d'une marketplace pour des unions commerciales</p>
+            <ul>
+              <li>Développement du front-end avec intégration d'API REST</li>
+              <li>Utilisation de l'IA pour assister les commerçants dans la création de leur vitrine en ligne</li>
+              <li>Refonte partielle du backend existant pour fluidifier le développement</li>
+            </ul>
+          </div>
+          <p class="log__where" style="margin:0"><b>La Marmite Digitale</b><span class="mute">stage · Ronchin</span></p>
+        </li>
+        <li class="log__row">
+          <p class="log__date" style="margin:0"><b>04/2024</b>→ 06/2024</p>
+          <div>
+            <h3 class="log__role">Développeur web</h3>
+            <ul style="margin-top:.6rem">
+              <li>Développement d'une interface affichant des tickets clients en temps réel, connectée à une API REST et déployée via Docker</li>
+              <li>Conception d'une sonde de supervision collectant RAM et stockage des postes, avec API REST et interface de visualisation</li>
+            </ul>
+          </div>
+          <p class="log__where" style="margin:0"><b>IESI</b><span class="mute">stage · Mérignies</span></p>
+        </li>
+      </ol>
+    </section>
+
+    <!-- ================= Projets choisis ================= -->
+    <section id="projets" class="g sec proj" aria-labelledby="t-proj">
+      <header class="sec__head" style="margin-bottom:0">
+        <p class="sec__cmd prompt">ls projets/ --featured</p>
+        <h2 class="sec__title" id="t-proj">projets<span class="slash">/</span></h2>
+      </header>
+
+      <article class="p--a" id="p-diffusion" aria-labelledby="t-p1">
+        <p class="p__path">projets/diffusion-contenus-iesi/</p>
+        <h3 class="p__title" id="t-p1">Application de diffusion de contenus multimédias</h3>
+        <p class="p__sum">Application de diffusion de contenus multimédias avec abonnement, développée en alternance chez IESI.</p>
+        <dl class="p__kv">
+          <dt>cadre</dt><dd>Alternance · IESI · 09/2025 → 06/2026</dd>
+          <dt>état</dt><dd class="pending">détails à venir</dd>
+        </dl>
+      </article>
+
+      <article class="p--b" id="p-marketplace" aria-labelledby="t-p2">
+        <p class="p__path">projets/marketplace-marmite/</p>
+        <h3 class="p__title" id="t-p2">Marketplace pour unions commerciales</h3>
+        <p class="p__sum">Marketplace pour des unions commerciales, avec assistance par IA à la création des vitrines des commerçants.</p>
+        <dl class="p__kv">
+          <dt>cadre</dt><dd>Stage · La Marmite Digitale · 04/2025 → 06/2025</dd>
+          <dt>stack</dt><dd>API REST / IA</dd>
+          <dt>état</dt><dd class="pending">détails à venir</dd>
+        </dl>
+      </article>
+
+      <figure class="p__shot p--c-shot">
+        <img src="../../src/assets/projects/sonde/cover.png" alt="Interface de la sonde de supervision : tableau des alertes RAM et stockage par machine, avec valeur, statut et seuil" loading="lazy" width="1183" height="627">
+        <figcaption><span>sonde/cover.png</span><span>tableau des alertes</span></figcaption>
+      </figure>
+      <article class="p--c-text" id="p-sonde" aria-labelledby="t-p3">
+        <p class="p__path">projets/sonde/</p>
+        <h3 class="p__title" id="t-p3">Sonde de supervision</h3>
+        <p class="p__sum">Sonde qui relève la RAM et le stockage des postes, avec API REST et interface de visualisation.</p>
+        <dl class="p__kv">
+          <dt>cadre</dt><dd>Stage · IESI · 04/2024 → 06/2024</dd>
+          <dt>stack</dt><dd>Python / Angular / NestJS / API REST</dd>
+        </dl>
+      </article>
+
+      <article class="p--d-text" id="p-tickets" aria-labelledby="t-p4">
+        <p class="p__path">projets/tickets-iesi/</p>
+        <h3 class="p__title" id="t-p4">Écran atelier&nbsp;: tickets clients en temps réel</h3>
+        <p class="p__sum">Interface affichant en temps réel les tickets envoyés par les clients d'IESI, connectée à une API REST et déployée via Docker.</p>
+        <dl class="p__kv">
+          <dt>cadre</dt><dd>Stage · IESI · 04/2024 → 06/2024</dd>
+          <dt>stack</dt><dd>Angular / NestJS / API REST / Docker</dd>
+        </dl>
+      </article>
+      <figure class="p__shot p--d-shot">
+        <img src="../../src/assets/projects/tickets-iesi/cover.png" alt="Écran atelier : colonnes des tickets et des tâches avec leurs compteurs ouverts, en cours, gelés et en retard" loading="lazy" width="760" height="417">
+        <figcaption><span>tickets-iesi/cover.png</span><span>écran atelier</span></figcaption>
+      </figure>
+
+      <p class="proj__more mute"><span class="comment">7 autres projets dans projets/ — écoles et entreprise</span></p>
+    </section>
+
+    <!-- ================= Compétences ================= -->
+    <section id="competences" class="g sec" aria-labelledby="t-skills">
+      <header class="sec__head">
+        <p class="sec__cmd prompt">cat competences.yml</p>
+        <h2 class="sec__title" id="t-skills">competences<span class="slash">.yml</span></h2>
+      </header>
+
+      <div class="file">
+        <div class="file__tab"><b>competences.yml</b><span class="mute">yaml · lecture seule</span></div>
+        <ol class="code">
+          <li><span><span class="k">frameworks:</span> Angular, Tailwind CSS, NestJS</span></li>
+          <li><span><span class="k">langages:</span> HTML/CSS, JavaScript, TypeScript, PHP, Python</span></li>
+          <li><span><span class="k">bases_de_donnees_orm:</span> MySQL, PostgreSQL, Prisma, Drizzle</span></li>
+          <li><span><span class="k">tests:</span> Jest, Playwright</span></li>
+          <li><span><span class="k">devops_outils:</span> Docker, Git, WordPress</span></li>
+          <li><span class="comment">notions, pas encore de production</span></li>
+          <li><span><span class="k">notions:</span> C#, Flutter, Svelte</span></li>
+        </ol>
+      </div>
+
+      <div class="aside">
+        <div>
+          <h3><span class="comment" style="color:var(--ink)">langues</span></h3>
+          <ul>
+            <li><span>Français</span><span class="mute">Langue natale</span></li>
+            <li><span>Anglais</span><span class="mute">A2</span></li>
+          </ul>
+        </div>
+        <div>
+          <h3><span class="comment" style="color:var(--ink)">savoir-être</span></h3>
+          <ul>
+            <li>Persévérant</li><li>Méticuleux</li><li>Organisé</li><li>Réactif</li><li>Curieux</li><li>Leadership</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================= Contact ================= -->
+    <section id="contact" class="g sec" aria-labelledby="t-contact">
+      <header class="sec__head">
+        <p class="sec__cmd prompt">contact --all</p>
+        <h2 class="sec__title" id="t-contact">contact</h2>
+      </header>
+
+      <a class="mail" href="mailto:a.magnier.pro@gmail.com">a.magnier.pro@gmail.com</a>
+
+      <dl class="reach">
+        <dt>téléphone</dt><dd><a href="tel:+33699691514">06 99 69 15 14</a></dd>
+        <dt>github</dt><dd><a href="https://github.com/AlexandreMagnier04">github.com/AlexandreMagnier04</a></dd>
+        <dt>linkedin</dt><dd><a href="https://www.linkedin.com/in/alexandre-magnier">linkedin.com/in/alexandre-magnier</a></dd>
+        <dt>cv</dt><dd><a href="../../public/cv-alexandre-magnier.pdf">cv-alexandre-magnier.pdf</a> <span class="mute">(PDF)</span></dd>
+      </dl>
+
+      <p class="eof">— EOF —</p>
+    </section>
+  </main>
+</div>
+
+<div class="status" aria-hidden="true">
+  <span class="status__path" id="status-path">~/alexandre-magnier/<span>README.md</span></span>
+  <span id="status-pos">haut</span>
+</div>
+
+<script>
+  // Interaction signature : l'arborescence suit la lecture (marqueur + ligne d'état).
+  (function () {
+    var tree = document.getElementById('tree');
+    var marker = document.getElementById('marker');
+    var statusPath = document.getElementById('status-path');
+    var statusPos = document.getElementById('status-pos');
+    if (!tree || !('IntersectionObserver' in window)) return;
+
+    var links = Array.prototype.slice.call(tree.querySelectorAll('a[data-target]'));
+    var labels = { presentation: 'README.md', experiences: 'experiences/', projets: 'projets/', competences: 'competences.yml', contact: 'contact' };
+
+    function activate(id) {
+      links.forEach(function (a) {
+        var on = a.dataset.target === id;
+        if (on) {
+          a.setAttribute('aria-current', 'true');
+          marker.style.setProperty('--y', a.parentElement.offsetTop + 'px');
+          marker.style.height = a.offsetHeight + 'px';
+          marker.classList.add('is-on');
+        } else {
+          a.removeAttribute('aria-current');
+        }
+      });
+      statusPath.lastElementChild.textContent = labels[id] || '';
+    }
+
+    var io = new IntersectionObserver(function (entries) {
+      entries.forEach(function (e) { if (e.isIntersecting) activate(e.target.id); });
+    }, { rootMargin: '-40% 0px -55% 0px' });
+    links.forEach(function (a) {
+      var s = document.getElementById(a.dataset.target);
+      if (s) io.observe(s);
+    });
+    activate('presentation');
+
+    var ticking = false;
+    window.addEventListener('scroll', function () {
+      if (ticking) return;
+      ticking = true;
+      requestAnimationFrame(function () {
+        var max = document.documentElement.scrollHeight - innerHeight;
+        var p = max > 0 ? Math.round(scrollY / max * 100) : 0;
+        statusPos.textContent = p <= 0 ? 'haut' : p >= 100 ? 'bas' : p + ' %';
+        ticking = false;
+      });
+    }, { passive: true });
+  })();
+</script>
+</body>
+</html>
