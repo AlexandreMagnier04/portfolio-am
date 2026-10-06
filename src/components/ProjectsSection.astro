@@ -20,6 +20,7 @@ const projects = await getProjects();
       <button type="button" class="carousel__btn" data-prev>← précédent</button>
       <span class="carousel__progress" aria-hidden="true"><span data-progress></span></span>
       <span class="carousel__count" data-count aria-live="polite">01 / {String(projects.length).padStart(2, '0')}</span>
+      <button type="button" class="carousel__btn carousel__toggle" data-toggle aria-pressed="false" aria-label="Mettre le défilement automatique en pause">pause</button>
       <button type="button" class="carousel__btn" data-next>suivant →</button>
     </div>
   </div>
