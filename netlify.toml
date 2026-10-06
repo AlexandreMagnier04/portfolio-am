@@ -1,0 +1,7 @@
+# Configuration du déploiement Netlify : site statique Astro construit avec pnpm.
+[build]
+  command = "pnpm build"
+  publish = "dist"
+
+[build.environment]
+  NODE_VERSION = "22"
