@@ -119,6 +119,8 @@ Un petit script dans `<head>` (`Layout.astro`) ajoute la classe `is-loading` sur
 
 Les projets de l'accueil défilent dans un carrousel de cartes, comme sur l'ancien portfolio : trois cartes visibles sur ordinateur, deux sur tablette, une sur mobile. Tous les projets y sont, dans l'ordre du champ `order` des fiches : Respire, Marketplace, Gustichef, puis le reste. Il n'y a pas de bouton pour « déplier » d'autres projets. Le défilement horizontal est natif (`scroll-snap`) et fonctionne sans JavaScript ; `src/scripts/carousel.ts` ajoute les boutons précédent et suivant, la barre de progression, le compteur et les flèches du clavier. Le chiffre clé d'une carte est le premier élément du champ `figures` de la fiche, à ne remplir qu'avec des faits tirés des dossiers.
 
+Le carrousel avance aussi tout seul, d'une carte toutes les 5,5 secondes (constante `AUTOPLAY_MS` en haut de `src/scripts/carousel.ts`). Il s'arrête quand la souris le survole, quand le focus clavier est dedans, quand l'onglet est caché ou que le carrousel n'est pas à l'écran, et pendant 5,5 secondes après toute action du visiteur (clic, glisser, molette, clavier). Un bouton « pause / lecture » permet de le couper pour de bon, et rien ne bouge pour un visiteur qui demande « moins d'animations ». Au bout de la piste, il revient à la première carte.
+
 ## Ordre de la page projet
 
 `src/pages/projets/[slug].astro` assemble la page dans cet ordre : en-tête (titre, résumé, cadre, boutons issus de `links`), puis les captures, puis le texte de la fiche (le Markdown, rendu par `<Content />`), puis la stack, puis la pagination vers le projet précédent et suivant. Les captures viennent en premier pour qu'on voie le projet avant de le lire.

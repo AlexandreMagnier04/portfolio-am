@@ -658,3 +658,10 @@ html { scroll-padding-bottom: 2.5rem; }
 .about { padding-top: var(--sp-block); }
 .sr-only { position: absolute; width: 1px; height: 1px; margin: -1px; padding: 0; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0; }
 .log__label { color: var(--ink); font-weight: 600; margin-right: .4ch; }
+
+/* bouton pause / lecture du défilement automatique */
+.carousel__toggle { min-width: 7ch; text-align: center; }
+@media (max-width: 640px) {
+  .carousel__progress { display: none; }
+  .carousel__count { margin-left: auto; margin-right: auto; }
+}
